@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRID DOWN DATA | Tactical Knowledge Vault</title>
+    <style>
+        :root {
+            --bg-main: #1A1F1B;
+            --bg-card: #242B26;
+            --bg-nav: #1E2320;
+            --text-main: #EAEAEA;
+            --text-muted: #A0A8A2;
+            --accent: #D35400;
+            --accent-hover: #E67E22;
+            --border: #2F3831;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-nav);
+            border-bottom: 2px solid var(--border);
+        }
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-brand {
+            color: var(--text-main);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 14px 0;
+            font-size: 0.95rem;
+        }
+        .nav-brand span {
+            color: var(--accent);
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 10px 0;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--text-main);
+            border-color: var(--accent);
+            background-color: var(--bg-card);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--text-main);
+            margin: 0 0 5px 0;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .tagline {
+            color: var(--accent);
+            font-weight: bold;
+            margin: 0 0 18px 0;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        .search-box {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-main);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .search-box:focus {
+            outline: 1px solid var(--accent);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 22px;
+            margin-top: 25px;
+        }
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+        .section-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 22px;
+            scroll-margin-top: 90px;
+        }
+        .section-title {
+            color: var(--text-main);
+            font-size: 1.15rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            background-color: var(--bg-main);
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+            transition: transform 0.1s ease, border-color 0.15s ease;
+        }
+        li:hover {
+            transform: translateX(4px);
+            border-left-color: var(--accent-hover);
+        }
+        a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+        .meta-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+        .no-results {
+            display: none;
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .download-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" aria-label="Section navigation">
+    <div class="nav-container">
+        <a class="nav-brand" href="#">Grid <span>Down</span> Data</a>
+        <div class="nav-links">
+            <a href="#sec-medical">Medical</a>
+            <a href="#sec-water">Water</a>
+            <a href="#sec-heritage">Heritage</a>
+            <a href="#sec-infrastructure">Tools</a>
+            <a href="#sec-offline">Offline</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>Grid Down Data</h1>
+        <div class="tagline">Air-Gapped Knowledge // Zero Friction // Field Ready</div>
+        <input type="text" id="vaultSearch" class="search-box" placeholder="Type to search modules instantly (e.g., salting, trauma, water, kiwix)..." onkeyup="filterVault()" aria-label="Search modules">
+    </header>
+
+    <div id="noResultsMessage" class="no-results">No deployment modules match your query.</div>
+
+    <div class="grid" id="vaultGrid">
+        <!-- Section 1: Emergency Medical -->
+        <section class="section-card" id="sec-medical">
+            <div class="section-title">01 // Emergency Medical</div>
+            <ul>
+                <li class="vault-item">
+                    <a href="01_MEDICAL_FIRST_AID/Emergency_Medicine_Manual.pdf" target="_blank">Field Trauma & Diagnostic Manual</a>
+                    <div class="meta-desc">Emergency field care protocols for non-professionals.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="01_MEDICAL_FIRST_AID/Combat_Casualty_Care.pdf" target="_blank">Combat Casualty Care Guidelines</a>
+                    <div class="meta-desc">Tactical combat casualty care and stabilization techniques.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="01_MEDICAL_FIRST_AID/Wilderness_First_Responder.pdf" target="_blank">Wilderness Medicine & Wilderness First Responder Guide</a>
+                    <div class="meta-desc">Managing prolonged care scenarios when advanced medical help is unavailable.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 2: Water & Sanitation -->
+        <section class="section-card" id="sec-water">
+            <div class="section-title">02 // Water & Sanitation</div>
+            <ul>
+                <li class="vault-item">
+                    <a href="02_WATER_SANITATION/EPA_Emergency_Water_Disinfection.pdf" target="_blank">EPA Emergency Water Disinfection Protocols</a>
+                    <div class="meta-desc">Federal standards for sourcing, boiling, and chemically treating raw water.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="02_WATER_SANITATION/Well_Drilling_Manual.pdf" target="_blank">Low-Tech Water Well Drilling Manual</a>
+                    <div class="meta-desc">Historic extension designs for manual well-sinking and shallow groundwater access.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="02_WATER_SANITATION/Off_Grid_Sanitation.pdf" target="_blank">Off-Grid Greywater & Sanitation Infrastructure</a>
+                    <div class="meta-desc">Safe, disease-preventing waste management systems for long-term grid failure.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 3: Heritage Skills -->
+        <section class="section-card" id="sec-heritage">
+            <div class="section-title">03 // Heritage Skills</div>
+            <ul>
+                <li class="vault-item">
+                    <a href="03_FOOD_PRESERVATION_HOMESTEADING/Salting_And_Drying_Guide.pdf" target="_blank">Traditional Fish Salting & Drying Guide</a>
+                    <div class="meta-desc">Great Depression-era preservation protocols for lean fish and proteins without refrigeration.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="03_FOOD_PRESERVATION_HOMESTEADING/USDA_Canning_1930.pdf" target="_blank">Historical 1930s USDA Agriculture & Canning Bulletin</a>
+                    <div class="meta-desc">High-yield heirloom crop cellaring, pressure canning, and long-term storage mechanics.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="03_FOOD_PRESERVATION_HOMESTEADING/Foxfire_Homesteading.pdf" target="_blank">The Foxfire Book of Traditional Homesteading Skills</a>
+                    <div class="meta-desc">Log cabin construction, woodcraft, soap making, and self-sufficient country living.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 4: Infrastructure & Tools -->
+        <section class="section-card" id="sec-infrastructure">
+            <div class="section-title">04 // Infrastructure & Tools</div>
+            <ul>
+                <li class="vault-item">
+                    <a href="04_MECHANICAL_TOOLS_ENERGY/Small_Engine_Repair.pdf" target="_blank">Off-Grid Mechanical Diagnostics & Small Engine Repair</a>
+                    <div class="meta-desc">Visual troubleshooting schematics for small combustion engines and hand-tool restoration.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="04_MECHANICAL_TOOLS_ENERGY/Hydraulic_Ram_Pumps.pdf" target="_blank">Hydraulic Ram Pump Construction Blueprint</a>
+                    <div class="meta-desc">How to build a grid-free water pump powered entirely by kinetic water pressure.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="04_MECHANICAL_TOOLS_ENERGY/Off_Grid_Solar_Wind.pdf" target="_blank">Micro-Scale Solar & Wind Power Setup Guide</a>
+                    <div class="meta-desc">Basic electrical wiring diagrams for localized battery banks and small solar arrays.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 5: Offline Wikis & Software -->
+        <section class="section-card" id="sec-offline">
+            <div class="section-title">05 // Offline Wikis & Software</div>
+            <ul>
+                <li class="vault-item">
+                    <a href="05_OFFLINE_WIKIS/kiwix-desktop.exe" download>Download Local Kiwix Reader (Windows)</a>
+                    <div class="meta-desc">Local desktop application required to open and read compressed .zim database files.</div>
+                    <span class="download-tag">Download</span>
+                </li>
+                <li class="vault-item">
+                    <a href="05_OFFLINE_WIKIS/kiwix-desktop.dmg" download>Download Local Kiwix Reader (Mac)</a>
+                    <div class="meta-desc">Mac OS localized application for offline database browsing.</div>
+                    <span class="download-tag">Download</span>
+                </li>
+                <li class="vault-item">
+                    <a href="05_OFFLINE_WIKIS/wikipedia_en_all.zim" target="_blank">Master Offline Wikipedia Archive</a>
+                    <div class="meta-desc">Full English text-only Wikipedia compressed database archive.</div>
+                </li>
+                <li class="vault-item">
+                    <a href="05_OFFLINE_WIKIS/wikihow_en_all.zim" target="_blank">Master Offline WikiHow Database</a>
+                    <div class="meta-desc">Comprehensive illustrated guide database for thousands of physical tasks.</div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<script>
+function filterVault() {
+    const input = document.getElementById('vaultSearch');
+    const filter = input.value.toUpperCase().trim();
+    const grid = document.getElementById('vaultGrid');
+    const items = grid.getElementsByClassName('vault-item');
+    const cards = grid.getElementsByClassName('section-card');
+    const noResults = document.getElementById('noResultsMessage');
+    let dynamicMatchCount = 0;
+
+    for (let i = 0; i < items.length; i++) {
+        let textContent = items[i].textContent || items[i].innerText;
+        if (textContent.toUpperCase().indexOf(filter) > -1) {
+            items[i].style.display = "";
+            dynamicMatchCount++;
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+
+    for (let j = 0; j < cards.length; j++) {
+        let listItems = cards[j].getElementsByClassName('vault-item');
+        let visibleCount = 0;
+        for (let k = 0; k < listItems.length; k++) {
+            if (listItems[k].style.display !== "none") {
+                visibleCount++;
+            }
+        }
+        cards[j].style.display = (visibleCount > 0) ? "" : "none";
+    }
+
+    noResults.style.display = (dynamicMatchCount === 0) ? "block" : "none";
+}
+</script>
+</body>
+</html>
