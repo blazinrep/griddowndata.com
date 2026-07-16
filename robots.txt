@@ -1,0 +1,23 @@
+# GridDownData — robots.txt
+# Allow all reputable search + AI answer engines to index everything.
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI answer engines (AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.griddowndata.com/sitemap.xml
