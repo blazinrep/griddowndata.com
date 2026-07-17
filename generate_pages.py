@@ -123,22 +123,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <body>
 <header style="display: flex; align-items: center; justify-content: space-between; padding: 15px 4%; background-color: #0F1214; border-bottom: 1px solid #1E232A; width: 100%; box-sizing: border-box;" role="banner">
   <!-- Brand Block -->
-  <a href="{base}/" class="brand-link" style="display: flex; align-items: center; gap: 16px; text-decoration: none; min-width: 300px; flex-shrink: 0;">
-    <!-- Vector Woodcut Mountain & Tower Emblem -->
-    <svg width="65" height="50" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
-      <path d="M5 68 L32 25 L55 52 L75 32 L95 68 Z" fill="#0F1214"/>
-      <path d="M50 3 L43 68 L57 68 Z" stroke="#E65100" stroke-width="2.5" fill="#0F1214"/>
-      <path d="M48 18 L52 18 M46 34 L54 34 M45 50 L55 50 M48 18 L53 34 M52 18 L47 34 M47 34 L54 50 M53 34 L46 50 M46 50 L57 68 M54 50 L43 68" stroke="#E65100" stroke-width="1.2"/>
-      <path d="M44 10 Q50 1 56 10" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 1"/>
-      <path d="M40 14 Q50 -2 60 14" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-      <path d="M5 68 L32 25 L55 52 L75 32 L95 68" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M32 25 L41 46 L45 68 M75 32 L66 50 L61 68" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    <!-- Crisp, Bold Typography -->
-    <div class="brand-text" style="display: flex; flex-direction: column;">
-      <h1 style="font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 26px; color: #FFFFFF; margin: 0; line-height: 1.0; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap;">GRID DOWN</h1>
-    </div>
-  </a>
+  <a href="{base}/" style="display: block; width: fit-content;"><img src="/assets/images/grid-down-logo.png" alt="Grid Down" style="height: 55px; width: auto; display: block;"></a>
   <nav class="nav-menu" style="display: flex; align-items: center; gap: 24px; margin-left: auto; margin-right: 24px;">
     <a href="{base}/">Home</a>
   </nav>
