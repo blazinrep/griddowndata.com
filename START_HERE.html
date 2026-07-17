@@ -43,7 +43,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            min-height: 64px;
+            height: auto;
             gap: 10px;
         }
         .brand {
@@ -327,7 +328,29 @@
 
 <div class="topbar">
     <div class="topbar-inner">
-        <a class="brand" href="index.html">Grid <span>Down</span> Data</a>
+        <a href="index.html" style="text-decoration:none;color:inherit;">
+            <div class="brand-block" style="display: flex; align-items: center; gap: 15px; margin-bottom: 0;">
+                <!-- Mountain & Radio Tower Logo -->
+                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #343a40; padding: 5px; background: #0f1214;">
+                    <!-- Radio Tower Base & Mast -->
+                    <path d="M50 20 L45 85 L55 85 Z" stroke="#e65100" stroke-width="2" fill="#0f1214"/>
+                    <!-- Tower Cross Bracing -->
+                    <path d="M48 35 L52 35 M47 50 L53 50 M46 65 L54 65 M45 80 L55 80 M48 35 L53 50 M52 35 L47 50 M47 50 L54 65 M53 50 L46 65 M46 65 L55 80 M54 65 L45 80" stroke="#e65100" stroke-width="1"/>
+                    <!-- Signal Waves -->
+                    <circle cx="50" cy="20" r="4" stroke="#ffffff" stroke-width="1" stroke-dasharray="2 2"/>
+                    <circle cx="50" cy="20" r="9" stroke="#ea580c" stroke-width="1" stroke-dasharray="3 3"/>
+                    <!-- Background Mountains -->
+                    <path d="M10 85 L35 45 L55 70 L75 50 L90 85 Z" fill="#1a1e21" stroke="#ffffff" stroke-width="2"/>
+                    <!-- Foreground Mountain Cuts -->
+                    <path d="M35 45 L50 85 M75 50 L65 85" stroke="#ea580c" stroke-width="1.5"/>
+                </svg>
+                <!-- Text Branding -->
+                <div class="brand-text">
+                    <h1 style="font-family: sans-serif; font-weight: 800; font-size: 22px; color: #ffffff; margin: 0; letter-spacing: 1px; text-transform: uppercase; border: none; padding: 0;">GRID DOWN</h1>
+                    <span style="font-family: monospace; font-size: 11px; color: #ea580c; letter-spacing: 2px; text-transform: uppercase;">Data Library Asset</span>
+                </div>
+            </div>
+        </a>
         <a id="topAction" class="open-btn" href="02_Custom_Survival_Checklists/Master_Checklist.xlsx" style="align-self:center;">MASTER CHECKLIST</a>
     </div>
 </div>
