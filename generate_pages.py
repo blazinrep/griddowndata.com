@@ -123,7 +123,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <body>
 <header style="display: flex; align-items: center; justify-content: space-between; padding: 15px 4%; background-color: #0F1214; border-bottom: 1px solid #1E232A; width: 100%; box-sizing: border-box;" role="banner">
   <!-- Brand Block -->
-  <a href="/" style="display: block; width: fit-content;"><img src="/assets/images/grid-down-logo.png" alt="Grid Down" style="height: 85px; width: auto; display: block; mix-blend-mode: screen;"></a>
+  <a href="/" style="display: block; width: fit-content;"><img src="/assets/images/grid-down-logo.png" alt="Grid Down" style="height: 85px; width: auto; display: block; mix-blend-mode: screen; transform: rotate(1deg);"></a>
   <nav class="nav-menu" style="display: flex; align-items: center; gap: 24px; margin-left: auto; margin-right: 24px;">
     <a href="{base}/">Home</a>
   </nav>
