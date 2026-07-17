@@ -471,21 +471,41 @@
 <body>
 
   <!-- TOP BAR -->
-  <header class="topbar" role="banner">
-    <div class="wrap">
-      <a href="#" class="brand-logo" aria-label="GridDownData home">
-        <img src="/assets/images/grid-down-logo.png" alt="Grid Down Logo" style="height: 50px; width: auto; object-fit: contain; flex-shrink: 0; display: block;">
-      </a>
-      <nav class="nav-links" aria-label="Page sections">
-        <a href="#what">What It Is</a>
-        <a href="#included">What's Included</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#pyramid">Pyramid</a>
-        <a href="#curation">Curation</a>
-        <a href="#vault">Vault</a>
-        <a href="#faq">FAQ</a>
-        <a href="#offer">Get Vault</a>
-      </nav>
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 15px 4%; background-color: #0F1214; border-bottom: 1px solid #1E232A; width: 100%; box-sizing: border-box;" role="banner">
+
+    <!-- Brand Block -->
+    <div class="brand-header" style="display: flex; align-items: center; gap: 16px; min-width: 300px;">
+      <!-- Crisp Vector Woodcut Mountain & Tower Emblem -->
+      <svg width="65" height="50" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+        <path d="M5 68 L32 25 L55 52 L75 32 L95 68 Z" fill="#0F1214"/>
+        <path d="M50 3 L43 68 L57 68 Z" stroke="#E65100" stroke-width="2.5" fill="#0F1214"/>
+        <path d="M48 18 L52 18 M46 34 L54 34 M45 50 L55 50 M48 18 L53 34 M52 18 L47 34 M47 34 L54 50 M53 34 L46 50 M46 50 L57 68 M54 50 L43 68" stroke="#E65100" stroke-width="1.2"/>
+        <path d="M44 10 Q50 1 56 10" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 1"/>
+        <path d="M40 14 Q50 -2 60 14" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+        <path d="M5 68 L32 25 L55 52 L75 32 L95 68" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M32 25 L41 46 L45 68 M75 32 L66 50 L61 68" stroke="#FF5C1F" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <!-- Crisp, Solid Typography -->
+      <div class="brand-text" style="display: flex; flex-direction: column;">
+        <h1 style="font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 24px; color: #FFFFFF; margin: 0; line-height: 1.0; letter-spacing: 1.5px; text-transform: uppercase; border: none; padding: 0; white-space: nowrap;">GRID DOWN</h1>
+        <span style="font-family: monospace; font-size: 10px; color: #E65100; letter-spacing: 2.5px; font-weight: bold; text-transform: uppercase; margin-top: 4px; white-space: nowrap;">DATA BLUEPRINT</span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-links nav-menu" aria-label="Page sections" style="display: flex; align-items: center; gap: 24px; margin-left: auto; margin-right: 24px;">
+      <a href="#what">What It Is</a>
+      <a href="#included">What's Included</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pyramid">Pyramid</a>
+      <a href="#curation">Curation</a>
+      <a href="#vault">Vault</a>
+      <a href="#faq">FAQ</a>
+      <a href="#offer">Get Vault</a>
+    </nav>
+
+    <!-- CTA Button -->
+    <div class="header-actions">
       <a href="#offer" class="cta">Get Your Vault</a>
     </div>
   </header>
