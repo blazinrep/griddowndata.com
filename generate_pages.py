@@ -147,7 +147,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <a href="{base}/">Home</a>
   </nav>
   <div class="header-actions">
-    <a class="cta" href="{base}/#offer">Get Your Vault</a>
+    <a href="{base}/#vault" class="btn-cta" style="color: #FF5C1F; text-decoration: none; font-weight: bold; font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px;">Get Your Vault</a>
   </div>
 </header>
 <main class="wrap">
