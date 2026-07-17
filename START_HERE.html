@@ -234,6 +234,48 @@
             letter-spacing: 0.5px;
             font-weight: bold;
         }
+        .launch-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 9px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+        }
+        .launch-btn:hover,
+        .launch-btn:focus {
+            background-color: var(--accent);
+            color: var(--bg-main);
+            transform: translateY(-1px);
+        }
+        .tile-note {
+            background-color: var(--bg-main);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 4px 4px 0;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .tile-note strong {
+            color: var(--text-main);
+        }
         @media (max-width: 860px) {
             .layout {
                 flex-direction: column;
@@ -265,6 +307,20 @@
             .topbar-inner { flex-direction: column; height: auto; padding: 12px 20px; }
             h1 { font-size: 1.7rem; }
         }
+        .directory-map img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 12px;
+            background-color: #1a1a1a;
+        }
+        .directory-map .caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -272,7 +328,7 @@
 <div class="topbar">
     <div class="topbar-inner">
         <a class="brand" href="index.html">Grid <span>Down</span> Data</a>
-        <a id="topAction" class="open-btn" href="00_CORE_BLUEPRINT/emergency_checklist.pdf" style="align-self:center;">EMERGENCY CHECKLIST</a>
+        <a id="topAction" class="open-btn" href="02_Custom_Survival_Checklists/Master_Checklist.xlsx" style="align-self:center;">MASTER CHECKLIST</a>
     </div>
 </div>
 
@@ -280,11 +336,11 @@
     <aside class="sidebar" aria-label="Vault categories">
         <div class="sidebar-title">Vault Categories</div>
         <ul>
-            <li><a href="#core-blueprint">Core Blueprint</a></li>
-            <li><a href="#medical-library">Medical Library</a></li>
-            <li><a href="#infrastructure-guides">Infrastructure Guides</a></li>
-            <li><a href="#offline-navigation">Offline Navigation</a></li>
-            <li><a href="#survival-wikis">Survival Wikis</a></li>
+            <li><a href="#directory-map">Directory Map</a></li>
+            <li><a href="#readme-and-blueprint">00_README_and_Blueprint</a></li>
+            <li><a href="#offline-maps">03_Offline_Maps</a></li>
+            <li><a href="#kiwix-offline-wikis">01_Kiwix_Offline_Wikis</a></li>
+            <li><a href="#custom-survival-checklists">02_Custom_Survival_Checklists</a></li>
         </ul>
     </aside>
 
@@ -297,131 +353,120 @@
 
         <div id="noResultsMessage" class="no-results">No deployment modules match your query.</div>
 
+        <section class="section-card directory-map" id="directory-map">
+            <div class="section-title">Directory Structure Overview</div>
+            <img src="assets/images/directory-structure-overview.png" alt="Visual bird’s-eye map of the GridDownData offline library folder structure">
+        </section>
+
         <div class="grid" id="vaultGrid">
 
-            <section class="section-card" id="core-blueprint">
-                <div class="section-title">Core Blueprint</div>
+            <section class="section-card" id="readme-and-blueprint">
+                <div class="section-title">00_README_and_Blueprint</div>
                 <ul class="vault-list">
                     <li class="vault-item">
-                        <div class="file-title">Traditional Fish Salting &amp; Drying Guide</div>
-                        <div class="meta-desc">Great Depression-era preservation protocols for lean fish and proteins without refrigeration.</div>
-                        <a class="open-btn" href="03_FOOD_PRESERVATION_HOMESTEADING/Salting_And_Drying_Guide.pdf" target="_blank">Open File</a>
+                        <div class="file-title">00_Welcome.pdf</div>
+                        <div class="meta-desc">Welcome letter and quick orientation to the GridDownData kit.</div>
+                        <a class="open-btn" href="00_README_and_Blueprint/00_Welcome.pdf" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Historical 1930s USDA Agriculture &amp; Canning Bulletin</div>
-                        <div class="meta-desc">High-yield heirloom crop cellaring, pressure canning, and long-term storage mechanics.</div>
-                        <a class="open-btn" href="03_FOOD_PRESERVATION_HOMESTEADING/USDA_Canning_1930.pdf" target="_blank">Open File</a>
+                        <div class="file-title">01_Library_Overview.pdf</div>
+                        <div class="meta-desc">Complete index of every database, guide, and map included on the drive.</div>
+                        <a class="open-btn" href="00_README_and_Blueprint/01_Library_Overview.pdf" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">The Foxfire Book of Traditional Homesteading Skills</div>
-                        <div class="meta-desc">Log cabin construction, woodcraft, soap making, and self-sufficient country living.</div>
-                        <a class="open-btn" href="03_FOOD_PRESERVATION_HOMESTEADING/Foxfire_Homesteading.pdf" target="_blank">Open File</a>
+                        <div class="file-title">02_How_to_Use.pdf</div>
+                        <div class="meta-desc">Step-by-step instructions for plugging in, launching Kiwix, and finding files.</div>
+                        <a class="open-btn" href="00_README_and_Blueprint/02_How_to_Use.pdf" target="_blank">Open File</a>
+                    </li>
+                    <li class="vault-item">
+                        <div class="file-title">README.txt</div>
+                        <div class="meta-desc">Plain-text file index for any system without a PDF reader.</div>
+                        <a class="open-btn" href="00_README_and_Blueprint/README.txt" target="_blank">Open File</a>
                     </li>
                 </ul>
             </section>
 
-            <section class="section-card" id="medical-library">
-                <div class="section-title">Medical Library</div>
+            <section class="section-card" id="offline-maps">
+                <div class="section-title">03_Offline_Maps</div>
+                <div class="tile-note"><strong>How to use:</strong> Ensure OsmAnd is installed on your mobile device. Copy the <code>.obf</code> map files from this tile into your device’s OsmAnd data folder — typically <code>/Android/data/net.osmand/files/</code>. Full path details are in <code>MAPS_README.txt</code> below.</div>
                 <ul class="vault-list">
                     <li class="vault-item">
-                        <div class="file-title">Field Trauma &amp; Diagnostic Manual</div>
-                        <div class="meta-desc">Emergency field care protocols for non-professionals.</div>
-                        <a class="open-btn" href="01_MEDICAL_FIRST_AID/Emergency_Medicine_Manual.pdf" target="_blank">Open File</a>
+                        <div class="file-title">North_America.mbtiles</div>
+                        <div class="meta-desc">Regional OpenStreetMap vector database for North America (8.1 GB).</div>
+                        <a class="open-btn" href="03_Offline_Maps/North_America.mbtiles" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Combat Casualty Care Guidelines</div>
-                        <div class="meta-desc">Tactical combat casualty care and stabilization techniques.</div>
-                        <a class="open-btn" href="01_MEDICAL_FIRST_AID/Combat_Casualty_Care.pdf" target="_blank">Open File</a>
+                        <div class="file-title">USA_Topographic.mbtiles</div>
+                        <div class="meta-desc">USGS topographic vector map database for the United States (12.3 GB).</div>
+                        <a class="open-btn" href="03_Offline_Maps/USA_Topographic.mbtiles" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Wilderness Medicine &amp; Wilderness First Responder Guide</div>
-                        <div class="meta-desc">Managing prolonged care scenarios when advanced medical help is unavailable.</div>
-                        <a class="open-btn" href="01_MEDICAL_FIRST_AID/Wilderness_First_Responder.pdf" target="_blank">Open File</a>
+                        <div class="file-title">World_Overview.mbtiles</div>
+                        <div class="meta-desc">Global overview basemap (6.7 GB).</div>
+                        <a class="open-btn" href="03_Offline_Maps/World_Overview.mbtiles" target="_blank">Open File</a>
+                    </li>
+                    <li class="vault-item">
+                        <div class="file-title">MAPS_README.txt</div>
+                        <div class="meta-desc">Instructions for opening .mbtiles files in offline mapping apps.</div>
+                        <a class="open-btn" href="03_Offline_Maps/MAPS_README.txt" target="_blank">Open File</a>
                     </li>
                 </ul>
             </section>
 
-            <section class="section-card" id="infrastructure-guides">
-                <div class="section-title">Infrastructure Guides</div>
+            <section class="section-card" id="kiwix-offline-wikis">
+                <div class="section-title">01_Kiwix_Offline_Wikis</div>
+                <div class="launch-bar">
+                    <a class="launch-btn" href="01_Kiwix_Offline_Wikis/kiwix-desktop.exe" target="_blank">Launch Kiwix for Windows (.exe)</a>
+                    <a class="launch-btn" href="01_Kiwix_Offline_Wikis/Kiwix.app" target="_blank">Launch Kiwix for Mac (.app)</a>
+                </div>
+                <div class="tile-note"><strong>How to use:</strong> Click your OS launcher above, then select “Open File” and choose the <code>wikipedia_medical_maxi.zim</code> (or any .zim file) in this folder.</div>
                 <ul class="vault-list">
                     <li class="vault-item">
-                        <div class="file-title">Off-Grid Mechanical Diagnostics &amp; Small Engine Repair</div>
-                        <div class="meta-desc">Visual troubleshooting schematics for small combustion engines and hand-tool restoration.</div>
-                        <a class="open-btn" href="04_MECHANICAL_TOOLS_ENERGY/Small_Engine_Repair.pdf" target="_blank">Open File</a>
+                        <div class="file-title">wikipedia_en_all_maxi.zim</div>
+                        <div class="meta-desc">Full English Wikipedia snapshot (86.4 GB). Open with Kiwix.</div>
+                        <a class="open-btn" href="01_Kiwix_Offline_Wikis/wikipedia_en_all_maxi.zim" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Hydraulic Ram Pump Construction Blueprint</div>
-                        <div class="meta-desc">How to build a grid-free water pump powered entirely by kinetic water pressure.</div>
-                        <a class="open-btn" href="04_MECHANICAL_TOOLS_ENERGY/Hydraulic_Ram_Pumps.pdf" target="_blank">Open File</a>
+                        <div class="file-title">wikipedia_medical_maxi.zim</div>
+                        <div class="meta-desc">WikiMed medical encyclopedia (12.7 GB). Open with Kiwix.</div>
+                        <a class="open-btn" href="01_Kiwix_Offline_Wikis/wikipedia_medical_maxi.zim" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Micro-Scale Solar &amp; Wind Power Setup Guide</div>
-                        <div class="meta-desc">Basic electrical wiring diagrams for localized battery banks and small solar arrays.</div>
-                        <a class="open-btn" href="04_MECHANICAL_TOOLS_ENERGY/Off_Grid_Solar_Wind.pdf" target="_blank">Open File</a>
+                        <div class="file-title">wikihow_all_maxi.zim</div>
+                        <div class="meta-desc">Illustrated how-to database (4.3 GB). Open with Kiwix.</div>
+                        <a class="open-btn" href="01_Kiwix_Offline_Wikis/wikihow_all_maxi.zim" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">EPA Emergency Water Disinfection Protocols</div>
-                        <div class="meta-desc">Federal standards for sourcing, boiling, and chemically treating raw water.</div>
-                        <a class="open-btn" href="02_WATER_SANITATION/EPA_Emergency_Water_Disinfection.pdf" target="_blank">Open File</a>
-                    </li>
-                    <li class="vault-item">
-                        <div class="file-title">Low-Tech Water Well Drilling Manual</div>
-                        <div class="meta-desc">Historic extension designs for manual well-sinking and shallow groundwater access.</div>
-                        <a class="open-btn" href="02_WATER_SANITATION/Well_Drilling_Manual.pdf" target="_blank">Open File</a>
-                    </li>
-                    <li class="vault-item">
-                        <div class="file-title">Off-Grid Greywater &amp; Sanitation Infrastructure</div>
-                        <div class="meta-desc">Safe, disease-preventing waste management systems for long-term grid failure.</div>
-                        <a class="open-btn" href="02_WATER_SANITATION/Off_Grid_Sanitation.pdf" target="_blank">Open File</a>
+                        <div class="file-title">kiwix_catalog.txt</div>
+                        <div class="meta-desc">Catalog file listing the offline wiki databases on this drive.</div>
+                        <a class="open-btn" href="01_Kiwix_Offline_Wikis/kiwix_catalog.txt" target="_blank">Open File</a>
                     </li>
                 </ul>
             </section>
 
-            <section class="section-card" id="offline-navigation">
-                <div class="section-title">Offline Navigation</div>
+            <section class="section-card" id="custom-survival-checklists">
+                <div class="section-title">02_Custom_Survival_Checklists</div>
                 <ul class="vault-list">
                     <li class="vault-item">
-                        <div class="file-title">Topographic Map Reading &amp; Land Navigation</div>
-                        <div class="meta-desc">Contour lines, scale, declination, and terrain association for moving safely without electronic aids.</div>
-                        <a class="open-btn" href="#" onclick="return false;">Add File</a>
+                        <div class="file-title">01_Water_Checklist.pdf</div>
+                        <div class="meta-desc">Water sourcing, purification, storage, and sanitation checklist.</div>
+                        <a class="open-btn" href="02_Custom_Survival_Checklists/01_Water_Checklist.pdf" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">GPS Fallback &amp; Off-Grid Routing</div>
-                        <div class="meta-desc">Procedures for when satellite navigation fails: dead reckoning, pace count, and waypoint backup.</div>
-                        <a class="open-btn" href="#" onclick="return false;">Add File</a>
+                        <div class="file-title">02_Medical_Checklist.pdf</div>
+                        <div class="meta-desc">Medical supplies, trauma response, and first-aid readiness checklist.</div>
+                        <a class="open-btn" href="02_Custom_Survival_Checklists/02_Medical_Checklist.pdf" target="_blank">Open File</a>
                     </li>
                     <li class="vault-item">
-                        <div class="file-title">Local Area Topo Map Archive</div>
-                        <div class="meta-desc">Regional topographic maps stored locally for offline route planning and bug-out corridor analysis.</div>
-                        <a class="open-btn" href="#" onclick="return false;">Add File</a>
+                        <div class="file-title">03_Food_Checklist.pdf</div>
+                        <div class="meta-desc">Food storage, preservation, and nutrition checklist.</div>
+                        <a class="open-btn" href="02_Custom_Survival_Checklists/03_Food_Checklist.pdf" target="_blank">Open File</a>
                     </li>
-                </ul>
-            </section>
-
-            <section class="section-card" id="survival-wikis">
-                <div class="section-title">Survival Wikis</div>
-                <ul class="vault-list">
                     <li class="vault-item">
-                        <div class="file-title">Download Local Kiwix Reader (Windows)</div>
-                        <div class="meta-desc">Local desktop application required to open and read compressed .zim database files.</div>
-                        <a class="open-btn" href="05_OFFLINE_WIKIS/kiwix-desktop.exe" download>Open File</a>
+                        <div class="file-title">Master_Checklist.xlsx</div>
+                        <div class="meta-desc">Combined master checklist spreadsheet.</div>
+                        <a class="open-btn" href="02_Custom_Survival_Checklists/Master_Checklist.xlsx" download>Open File</a>
                         <span class="download-tag">Download</span>
-                    </li>
-                    <li class="vault-item">
-                        <div class="file-title">Download Local Kiwix Reader (Mac)</div>
-                        <div class="meta-desc">Mac OS localized application for offline database browsing.</div>
-                        <a class="open-btn" href="05_OFFLINE_WIKIS/kiwix-desktop.dmg" download>Open File</a>
-                        <span class="download-tag">Download</span>
-                    </li>
-                    <li class="vault-item">
-                        <div class="file-title">Master Offline Wikipedia Archive</div>
-                        <div class="meta-desc">Full English text-only Wikipedia compressed database archive.</div>
-                        <a class="open-btn" href="05_OFFLINE_WIKIS/wikipedia_en_all.zim" target="_blank">Open File</a>
-                    </li>
-                    <li class="vault-item">
-                        <div class="file-title">Master Offline WikiHow Database</div>
-                        <div class="meta-desc">Comprehensive illustrated guide database for thousands of physical tasks.</div>
-                        <a class="open-btn" href="05_OFFLINE_WIKIS/wikihow_en_all.zim" target="_blank">Open File</a>
                     </li>
                 </ul>
             </section>
@@ -468,9 +513,9 @@ function filterVault() {
 <script>
 (function () {
     var onlineUrl = 'https://griddowndata.com';
-    var offlineUrl = '00_CORE_BLUEPRINT/emergency_checklist.pdf';
+    var offlineUrl = '02_Custom_Survival_Checklists/Master_Checklist.xlsx';
     var onlineLabel = 'GO ONLINE';
-    var offlineLabel = 'EMERGENCY CHECKLIST';
+    var offlineLabel = 'MASTER CHECKLIST';
     var btn = document.getElementById('topAction');
     if (!btn) return;
 

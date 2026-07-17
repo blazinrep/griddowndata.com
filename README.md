@@ -164,6 +164,16 @@ This interface file is provided as-is for personal preparedness, education, and 
 
 ---
 
+## Brand Assets & Visual Identity
+
+Storefront and USB dashboard images live in `assets/images/`.
+
+The **mountain-and-tower logo** is the official, unified GridDownData mark. Use it consistently across all storefront imagery, the offline USB dashboard, printed quick-reference cards, Faraday pouch branding, and product packaging. Do not introduce alternate marks for the same brand touchpoint.
+
+See `assets/images/README.md` for the exact filename-to-usage mapping.
+
+---
+
 ## Contact / Maintenance
 
 Keep this file updated whenever the folder structure, asset list, or deployment process changes. The goal is a single source of truth for anyone maintaining the archive.

@@ -1,0 +1,5 @@
+name = "griddowndata"
+compatibility_date = "2024-12-18"
+
+# Cloudflare Pages Functions read environment variables from the dashboard.
+# Do not put secrets in this file. Copy .env.example and set values there for local dev only.

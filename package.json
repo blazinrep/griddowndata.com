@@ -1,0 +1,17 @@
+{
+  "name": "griddowndata.com",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GridDownData e-commerce storefront for the Grid-Down Survival Data Kit.",
+  "scripts": {
+    "pages:dev": "wrangler pages dev --compatibility-date=2024-12-18",
+    "pages:deploy": "wrangler pages deploy"
+  },
+  "dependencies": {
+    "stripe": "^17.7.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
