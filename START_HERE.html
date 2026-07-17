@@ -272,7 +272,7 @@
 <div class="topbar">
     <div class="topbar-inner">
         <a class="brand" href="index.html">Grid <span>Down</span> Data</a>
-        <a class="open-btn" href="index.html" style="align-self:center;">Storefront</a>
+        <a id="topAction" class="open-btn" href="00_CORE_BLUEPRINT/emergency_checklist.pdf" style="align-self:center;">EMERGENCY CHECKLIST</a>
     </div>
 </div>
 
@@ -463,6 +463,31 @@ function filterVault() {
 
     noResults.style.display = (dynamicMatchCount === 0) ? "block" : "none";
 }
+</script>
+
+<script>
+(function () {
+    var onlineUrl = 'https://griddowndata.com';
+    var offlineUrl = '00_CORE_BLUEPRINT/emergency_checklist.pdf';
+    var onlineLabel = 'GO ONLINE';
+    var offlineLabel = 'EMERGENCY CHECKLIST';
+    var btn = document.getElementById('topAction');
+    if (!btn) return;
+
+    function update() {
+        if (navigator.onLine) {
+            btn.href = onlineUrl;
+            btn.textContent = onlineLabel;
+        } else {
+            btn.href = offlineUrl;
+            btn.textContent = offlineLabel;
+        }
+    }
+
+    update();
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+})();
 </script>
 
 </body>
