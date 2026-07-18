@@ -125,8 +125,8 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <!-- Brand Block -->
   <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; width: fit-content;">
     <!-- Container to crop and show only the top mountain/tower emblem -->
-    <div style="width: 85px; height: 55px; overflow: hidden; display: block;">
-      <img src="/assets/images/grid-down-logo.png" alt="Grid Down Emblem" style="width: 85px; height: auto; display: block; margin-top: 0px;">
+    <div style="width: 150px; height: 70px; overflow: hidden; display: block;">
+      <img src="/assets/images/grid-down-logo.png" alt="Grid Down Emblem" style="width: 150px; height: auto; display: block; margin-top: 0px;">
     </div>
     <!-- Perfectly level, crisp text -->
     <span style="font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 22px; color: #FFFFFF; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.0;">GRID DOWN</span>
