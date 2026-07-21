@@ -31,7 +31,7 @@
   "@type": "Organization",
   "name": "GridDownData",
   "url": "https://www.griddowndata.com/",
-  "logo": "https://www.griddowndata.com/assets/logo.png",
+  "logo": "https://www.griddowndata.com/assets/images/grid-down-logo.png",
   "description": "Localized, air-gapped survival knowledge vaults on physical USB drives and digital downloads for homesteaders, veterans, and preppers.",
   "sameAs": []
 }
@@ -467,6 +467,9 @@
     .tier h3{flex-direction:column;align-items:flex-start;gap:8px}
   }
 </style>
+<!-- Lemon Squeezy overlay: opens the Build Guide checkout in a modal instead of a new tab.
+     Progressive enhancement — if it fails to load, the link still opens the hosted checkout. -->
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 </head>
 <body>
 
@@ -837,12 +840,113 @@
     </section>
 
     <!-- FINAL CTA -->
+    <!-- ============ PRICING / TWO SKUs ============ -->
+    <style>
+      #pricing .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+      @media(max-width:900px){#pricing .price-grid{grid-template-columns:1fr}}
+      #pricing .pcard{position:relative;background:var(--charcoal-2,#1E241F);border:1px solid var(--line);
+        border-radius:14px;padding:32px 28px;display:flex;flex-direction:column}
+      #pricing .pcard.featured{border-color:var(--orange);box-shadow:0 16px 40px rgba(211,84,0,.18)}
+      #pricing .pbadge{position:absolute;top:-12px;left:28px;background:var(--orange);color:#fff;
+        font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:3px}
+      #pricing .ptype{color:var(--orange);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.8rem}
+      #pricing .pname{font-size:1.5rem;font-weight:800;margin:8px 0 4px;color:var(--text)}
+      #pricing .pdesc{color:var(--muted);font-size:.95rem;min-height:48px}
+      #pricing .pprice{font-size:2.4rem;font-weight:800;margin:18px 0 2px;color:var(--text)}
+      #pricing .pprice small{font-size:1rem;font-weight:600;color:var(--muted)}
+      #pricing .pnote{color:var(--muted);font-size:.82rem;margin-bottom:20px}
+      #pricing .pfeat{list-style:none;margin:0 0 26px;padding:0;flex:1}
+      #pricing .pfeat li{position:relative;padding:7px 0 7px 26px;color:var(--text);font-size:.94rem;border-bottom:1px solid var(--line)}
+      #pricing .pfeat li:last-child{border-bottom:none}
+      #pricing .pfeat li::before{content:"✓";position:absolute;left:0;color:var(--orange);font-weight:800}
+      #pricing .pfeat li.muted{color:var(--muted)}
+      #pricing .pfeat li.muted::before{content:"–";color:var(--muted)}
+      #pricing .pcard .btn{width:100%;text-align:center;justify-content:center}
+      #pricing .perr{color:#E5484D;font-size:.82rem;margin-top:10px;min-height:18px;text-align:center}
+      #pricing .compare{color:var(--muted);font-size:.9rem;text-align:center;margin-top:30px}
+    </style>
+    <section class="block" id="pricing" aria-labelledby="pricing-title">
+      <div class="wrap">
+        <div class="kicker">Three ways to own it</div>
+        <h2 id="pricing-title">Build it, run our software, or <span class="hl">get it done for you.</span></h2>
+        <p>Everything a DIY build needs is free and public — so we sell what you can't download: the recipe, our software, or the whole thing done for you. Pick the rung that fits.</p>
+
+        <div class="price-grid">
+
+          <!-- TIER 1: DIY Build Guide (Lemon Squeezy) -->
+          <div class="pcard">
+            <div class="ptype">Do-it-yourself</div>
+            <div class="pname">The Build Guide</div>
+            <div class="pdesc">Step-by-step instructions to assemble the full vault from free, open sources. Instant PDF.</div>
+            <!-- TODO: set real price -->
+            <div class="pprice">$19<small> PDF</small></div>
+            <div class="pnote">Digital · Nothing ships · Yours forever</div>
+            <ul class="pfeat">
+              <li>Parts list &amp; where to buy</li>
+              <li>Exact free download list (wikis + maps)</li>
+              <li>One-command map downloader script</li>
+              <li>Assembly, phone setup &amp; verification</li>
+              <li class="muted">You supply the drive &amp; the time</li>
+              <li class="muted">Does not include our software</li>
+            </ul>
+            <!-- TODO: paste your Lemon Squeezy "Build Guide" checkout URL (keep ?embed=1). Deliver GridDown-Build-Guide.pdf -->
+            <a class="btn btn-ghost lemonsqueezy-button"
+               href="https://griddowndata.lemonsqueezy.com/buy/REPLACE-WITH-BUILD-GUIDE-ID?embed=1"
+               target="_blank" rel="noopener">Get the Build Guide</a>
+          </div>
+
+          <!-- TIER 2: Emergency OS Pack (Lemon Squeezy) -->
+          <div class="pcard featured">
+            <div class="pbadge">Best value</div>
+            <div class="ptype">The software</div>
+            <div class="pname">Emergency OS Pack</div>
+            <div class="pdesc">Our interface — the guided dashboard, the encrypted vault, the full manual — as a download. Drops onto a drive you build yourself.</div>
+            <!-- TODO: set real price -->
+            <div class="pprice">$49<small> download</small></div>
+            <div class="pnote">Digital · Drop-in files · Free yearly updates</div>
+            <ul class="pfeat">
+              <li>The Emergency OS dashboard (tells you what to do next)</li>
+              <li>The Personal Vault encryption app</li>
+              <li>All guided pages + the full field manual (PDF)</li>
+              <li>Includes the Build Guide</li>
+              <li class="muted">You supply the drive &amp; free content</li>
+            </ul>
+            <!-- TODO: paste your Lemon Squeezy "Emergency OS Pack" checkout URL (keep ?embed=1). Deliver the software .zip -->
+            <a class="btn btn-primary lemonsqueezy-button"
+               href="https://griddowndata.lemonsqueezy.com/buy/REPLACE-WITH-OS-PACK-ID?embed=1"
+               target="_blank" rel="noopener">Get the OS Pack</a>
+          </div>
+
+          <!-- TIER 3: Physical Vault Drive (Stripe) -->
+          <div class="pcard">
+            <div class="ptype">Done-for-you</div>
+            <div class="pname">The Vault Drive</div>
+            <div class="pdesc">A rugged USB drive, fully loaded and tested. Plug in and you're ready — no downloads, no assembly.</div>
+            <!-- TODO: set real price -->
+            <div class="pprice">$199<small> shipped</small></div>
+            <div class="pnote">Ships free in the US · 128&nbsp;GB · Faraday pouch</div>
+            <ul class="pfeat">
+              <li>Everything pre-loaded &amp; verified</li>
+              <li>All 50 states + DC offline maps</li>
+              <li>Medical, Wikipedia, repair &amp; ready.gov wikis</li>
+              <li>Emergency OS + Personal Vault</li>
+              <li>Rugged waterproof drive + Faraday pouch</li>
+            </ul>
+            <button class="btn btn-ghost" data-product="complete-kit">Order the Vault Drive</button>
+            <div class="perr" data-err="complete-kit"></div>
+          </div>
+
+        </div>
+        <p class="compare">Not sure? The Build Guide teaches the method; the OS Pack adds the software you can't get anywhere else; the Vault Drive is all of it, done. <em>(Prices are placeholders — confirm before launch.)</em></p>
+      </div>
+    </section>
+
     <section class="block final" id="offer" aria-labelledby="offer-title">
       <div class="wrap">
         <div class="kicker">Own your knowledge before you need it</div>
         <h2 id="offer-title">The worst time to wish you'd bought it is the day the search bar <span class="hl">stops loading.</span></h2>
         <p>Buy once. Hold forever. Never ask for permission again.</p>
-        <a href="#" class="btn btn-primary">Get Your Vault</a>
+        <a href="#pricing" class="btn btn-primary">Get Your Vault</a>
         <div class="microcopy">Physical USB drive &amp; instant digital download · Air-gapped · No subscription</div>
         <div class="tagline">GridDownData — Knowledge that survives the grid.</div>
       </div>
@@ -887,6 +991,33 @@
 
       noResults.style.display = (dynamicMatchCount === 0) ? "block" : "none";
   }
+
+  /* ===== Stripe checkout (physical Vault Drive only). The DIY guide uses a
+     direct Lemon Squeezy link and needs no JS. ===== */
+  document.querySelectorAll('#pricing button[data-product]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var product = btn.getAttribute('data-product');
+      var errEl = document.querySelector('#pricing [data-err="' + product + '"]');
+      var original = btn.textContent;
+      errEl.textContent = '';
+      btn.disabled = true; btn.textContent = 'Starting checkout…';
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: product })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (res.ok && res.d.url) { window.location.href = res.d.url; return; }
+          errEl.textContent = res.d.error || 'Checkout is not available yet. Please try again shortly.';
+          btn.disabled = false; btn.textContent = original;
+        })
+        .catch(function () {
+          errEl.textContent = 'Network error — please try again.';
+          btn.disabled = false; btn.textContent = original;
+        });
+    });
+  });
   </script>
 
 </body>
