@@ -20,4 +20,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://www.griddowndata.com/sitemap.xml
+Sitemap: https://griddowndata.com/sitemap.xml

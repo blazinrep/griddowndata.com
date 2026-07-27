@@ -39,7 +39,7 @@ export async function onRequestPost(context) {
     }
 
     const stripe = getStripe(env);
-    const baseUrl = env.BASE_URL || 'https://www.griddowndata.com';
+    const baseUrl = env.BASE_URL || 'https://griddowndata.com';
 
     const sessionParams = {
       mode: 'payment',

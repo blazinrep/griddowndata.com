@@ -9,22 +9,25 @@ Also writes a sitemap.xml that includes the homepage + every generated page.
 Usage:
     python3 generate_pages.py
 Output:
-    ./index.html is expected to already exist (the master page).
-    ./<slug>/index.html  (one per topic)
-    ./sitemap.xml
+    ./site/index.html is expected to already exist (the master page).
+    ./site/<slug>/index.html  (one per topic)
+    ./site/sitemap.xml
 """
 
 import os
 import html
 from datetime import date
 
-BASE_URL = "https://www.griddowndata.com"
-OUT_DIR = ""
+BASE_URL = "https://griddowndata.com"
+OUT_DIR = "site"
 TODAY = date.today().isoformat()
 
 # --- Brand theme (kept in sync with the master landing page) ---
 CHARCOAL = "#1A1F1B"
 ORANGE = "#D35400"
+
+# --- Google Analytics 4 measurement ID (site-wide tracking) ---
+GA_ID = "G-C773Y1WZQX"
 
 # --- Programmatic topic set: each dict becomes its own indexed page. ---
 # Add rows here to scale the site. Keep answers factual and specific.
@@ -71,11 +74,109 @@ TOPICS = [
              "No. All references are stored on the air-gapped drive and work fully offline."),
         ],
     },
+    {
+        "slug": "off-grid-solar-wiring",
+        "keyword": "Off-Grid Solar Wiring",
+        "title": "Off-Grid Solar Wiring Reference on USB | Panels, Charge Controllers & Battery Banks",
+        "h1": "When the grid dies, your solar array is only as good as its wiring.",
+        "intro": "Panels on the roof mean nothing if the charge controller is undersized, the wire gauge drops voltage, or the fuses are missing. GridDownData carries offline references for sizing conductors, wiring panels in series and parallel, matching charge controllers to battery banks, and protecting the whole system with correct overcurrent devices — stored on an air-gapped USB drive that keeps working after the power does.",
+        "answer": "Off-grid solar wiring is the discipline of connecting panels, charge controllers, batteries, and inverters safely so a system produces usable power without utility service. It covers series-versus-parallel panel arrays, correct wire gauge to limit voltage drop over distance, DC fusing and breakers, and grounding. GridDownData stores these references on an air-gapped USB drive so they remain available during outages, off-grid, or any time you must build or repair a system without internet access.",
+        "faqs": [
+            ("How do I size wire for an off-grid solar run?",
+             "Wire gauge depends on current, distance, and acceptable voltage drop. Longer DC runs at low voltage lose more energy, so heavier conductors keep the drop under a few percent. The offline reference includes gauge-versus-length tables and worked examples so you can size conductors correctly without an internet connection."),
+            ("Should solar panels be wired in series or parallel?",
+             "Series wiring raises voltage and suits longer runs and higher-voltage charge controllers, while parallel wiring keeps voltage low but raises current. Most real arrays combine both. The reference explains the trade-offs, shows how each affects charge-controller selection, and helps you match the array to your battery bank safely."),
+            ("Why does DC solar wiring need fuses and breakers?",
+             "Batteries can deliver enormous fault current, so unprotected wiring can overheat and start a fire. Correctly rated fuses and DC breakers on each conductor interrupt faults before damage occurs. The offline guide covers where to place overcurrent protection, how to size it to the wire, and common wiring mistakes that cause failures."),
+            ("Does the reference cover inverters and battery banks?",
+             "Yes. Beyond the array itself, it explains matching inverter capacity to your loads, sizing a battery bank for realistic daily use and depth of discharge, and wiring the two together through a charge controller. This lets you plan a complete system rather than just connecting panels in isolation."),
+        ],
+    },
+    {
+        "slug": "shtf-radio-communications",
+        "keyword": "SHTF Radio Communications",
+        "title": "SHTF Radio Communications Manual on USB | Ham, GMRS & CB When Cell Networks Fail",
+        "h1": "When the towers go dark, radio is how your people stay connected.",
+        "intro": "Cell phones and internet ride on infrastructure that fails early in a disaster. GridDownData carries an offline communications manual covering amateur (ham) radio bands, GMRS and CB options, antenna basics, frequency and channel planning, and simple monitoring schedules like the 3-3-3 plan — stored on an air-gapped USB drive so the reference is there even when every network you normally depend on is down.",
+        "answer": "SHTF radio communications is the practice of staying in contact when cell and internet infrastructure fails, using amateur (ham), GMRS, CB, and shortwave radio instead. It covers choosing bands for local versus long-distance contact, basic antennas, channel and frequency planning, and monitoring schedules so a group can coordinate. GridDownData stores this manual on an air-gapped USB drive so it works during grid-down events, remote travel, or any time normal networks are unavailable.",
+        "faqs": [
+            ("Which radio is best for grid-down communication?",
+             "It depends on range. CB and GMRS handle short local contact with minimal setup, while amateur (ham) HF bands can reach hundreds of miles without any infrastructure. The manual compares each option by range, cost, and licensing so you can match the right radio to your group's distances and terrain."),
+            ("Do I need a license to use these radios?",
+             "In the United States, amateur and GMRS use generally require an FCC license, while CB does not. The manual explains which services need licensing and encourages getting properly licensed so you know your equipment before an emergency. It also covers what monitoring you can lawfully do to gather information."),
+            ("What is the 3-3-3 radio plan?",
+             "The 3-3-3 plan is a simple schedule where group members power on their radios every three hours, listen and transmit for about three minutes, on a pre-agreed channel three. It conserves battery and keeps a group synchronized without constant monitoring. The manual details how to adapt it to your own frequencies and times."),
+            ("How do I plan antennas and frequencies offline?",
+             "The reference includes antenna basics, such as how height and length affect range, plus worksheets for recording your group's agreed frequencies, call signs, and check-in times. Because it lives on the air-gapped drive, you can build and rehearse a full communications plan without depending on any website or app."),
+        ],
+    },
+    {
+        "slug": "long-term-seed-storage",
+        "keyword": "Long-Term Seed Storage",
+        "title": "Long-Term Seed Storage Guide on USB | Heirloom Seed Saving for Years of Harvests",
+        "h1": "A pantry runs out. A seed bank feeds you every season.",
+        "intro": "Stored food eventually empties, but viable seed renews the harvest year after year. GridDownData carries an offline guide to long-term seed storage: selecting open-pollinated heirloom varieties, drying seed properly, sealing it in moisture-barrier packaging with desiccant, controlling temperature and humidity, and saving seed true-to-type from your own crops — all on an air-gapped USB drive that keeps working when the internet does not.",
+        "answer": "Long-term seed storage is the practice of keeping garden seeds viable for years so a household can keep replanting without buying new stock. It centers on open-pollinated heirloom varieties, thorough drying, low humidity, cool stable temperatures, and airtight moisture-barrier packaging with desiccant. GridDownData stores this guide on an air-gapped USB drive so seed-saving and storage references are available during outages, on the homestead, or any time online resources cannot be reached.",
+        "faqs": [
+            ("How long do properly stored seeds stay viable?",
+             "Under cool, dry, dark conditions many common vegetable seeds remain viable for roughly three to six years, and some, like tomatoes and squash, last longer. Heat and moisture shorten that dramatically. The guide covers expected lifespans by crop and how to test germination so you rotate stock before viability drops."),
+            ("Why choose heirloom instead of hybrid seeds?",
+             "Open-pollinated heirloom seeds breed true to type, so seed saved from this year's plants grows the same crop next season. Hybrid F1 seeds do not reliably reproduce their parent traits, which breaks the self-renewing cycle. The guide explains how to identify heirloom varieties and build a collection you can regrow indefinitely."),
+            ("What is the best way to package seeds for storage?",
+             "The enemies of seed are heat, light, and humidity. Seeds should be fully dry, then sealed in high-barrier Mylar or foil with a desiccant to hold down moisture, and kept cool and dark. The guide walks through drying, packaging, labeling, and where in the home to store your seed bank."),
+            ("How do I save seed from my own harvest?",
+             "Saving seed means selecting healthy open-pollinated plants, letting the seed mature fully, then cleaning and drying it before storage. Techniques differ for wet-seeded crops like tomatoes versus dry-seeded ones like beans. The guide details harvesting, fermenting or drying, and cleaning methods so each season replenishes your bank."),
+        ],
+    },
+    {
+        "slug": "emp-faraday-protection",
+        "keyword": "EMP Faraday Cage Protection",
+        "title": "EMP Faraday Cage Protection Guide on USB | Shield Electronics From a Pulse",
+        "h1": "One pulse can end the electronic age. Your gear doesn't have to go with it.",
+        "intro": "An electromagnetic pulse can destroy unprotected electronics in an instant, and by definition you cannot look up how to protect them afterward. GridDownData carries an offline guide to building and testing Faraday enclosures from common materials, deciding what gear to shield, and why grounding rules differ for EMP versus lightning — stored on an air-gapped USB drive that itself can live inside your Faraday cage.",
+        "answer": "A Faraday cage is a conductive enclosure that blocks electromagnetic fields, protecting the electronics inside from an EMP. This guide explains building one from common items like a galvanized steel trash can, lining it so devices never touch bare metal, sealing seams for a continuous conductive shell, and testing it. GridDownData stores it on an air-gapped USB drive so the reference survives the very event it prepares you for.",
+        "faqs": [
+            ("How do I build a Faraday cage at home?",
+             "A common approach uses a galvanized steel trash can with a tight-fitting metal lid as the conductive shell. The interior is lined with cardboard or cloth so devices never touch bare metal, and the lid-to-can seam is sealed for continuous contact. The guide details materials, layering, and assembly step by step."),
+            ("Should a Faraday cage be grounded for EMP?",
+             "For EMP protection the guide follows the common practice of not grounding the enclosure; an ungrounded cage redistributes and dissipates pulse energy around its exterior. Grounding is relevant to lightning, not EMP, and can even create a conduction path. The reference explains the distinction so you do not defeat your own protection."),
+            ("How can I test whether my Faraday cage works?",
+             "A simple field test is to seal a powered-on cell phone inside and call it from another phone. If it goes straight to voicemail with no ring, the enclosure is blocking those frequencies; if it rings, the seal has gaps. The guide covers this test and how to improve a leaky seal."),
+            ("What electronics are worth protecting from an EMP?",
+             "The guide suggests prioritizing hard-to-replace, high-value gear: two-way radios, spare solar charge controllers, LED lighting, medical devices, and a backup drive holding your offline references. It helps you build a small, sealed kit so that even after a pulse you retain communications, power control, and your knowledge library."),
+        ],
+    },
+    {
+        "slug": "off-grid-wood-heat",
+        "keyword": "Off-Grid Wood Heat",
+        "title": "Off-Grid Wood Heat Guide on USB | Staying Warm Through Winter Without the Grid",
+        "h1": "Below freezing with no furnace, heat is not a comfort — it's survival.",
+        "intro": "When the furnace has no power, staying warm becomes a planning problem you solve before winter, not during it. GridDownData carries an offline guide to heating without the grid: sizing a wood stove to your space, seasoning and estimating firewood, safe stovepipe and clearance practices, layered backup heat, and passive measures that hold warmth in — stored on an air-gapped USB drive that works in the cold and dark.",
+        "answer": "Off-grid wood heat is the practice of keeping a home warm without electric or gas utilities, primarily using a wood-burning stove. It covers matching a stove's BTU output to square footage and insulation, seasoning firewood and estimating the cords needed, safe stovepipe routing and clearances, and combining a primary heater with a different-fuel backup. GridDownData stores this guide on an air-gapped USB drive so it is available during outages, at a remote cabin, or any winter emergency without internet.",
+        "faqs": [
+            ("How much firewood do I need for a winter?",
+             "For a well-insulated home, roughly six cords of seasoned hardwood keeps a common room livable through a cold season; drafty or far-northern homes may need half again or twice that. The guide explains cords, seasoning times, and how to estimate your own needs from climate and home size."),
+            ("How do I size a wood stove to my space?",
+             "Match the stove's BTU rating to your square footage, insulation level, and winter severity — an oversized stove overheats and runs inefficiently, an undersized one never keeps up. The guide covers BTU-to-area rules of thumb, burn-time considerations, and why modern non-catalytic stoves hold overnight heat well."),
+            ("How do I burn a wood stove safely?",
+             "Safe operation means correct clearances to combustibles, proper stovepipe routing, regular chimney cleaning to prevent creosote fires, and adequate combustion air. The guide details clearance distances, seasoning wood to cut creosote, and carbon-monoxide awareness so heating your home does not become the emergency you were preparing for."),
+            ("Why plan more than one heat source?",
+             "Relying on a single heater is fragile. A robust plan pairs a powerful primary stove with a backup that uses a different fuel, plus passive measures like sealing drafts and closing off rooms to concentrate heat. The guide shows how to layer these so one failure does not leave you cold."),
+        ],
+    },
 ]
 
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{ga_id}');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
@@ -121,19 +222,8 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header style="display: flex; align-items: center; justify-content: space-between; padding: 15px 4%; background-color: #0F1214; border-bottom: 1px solid #1E232A; width: 100%; box-sizing: border-box;" role="banner">
-  <!-- Brand Block -->
-  <a href="/" style="display: block; width: fit-content;">
-    <img src="/assets/images/grid-down-logo.png" alt="Grid Down" style="height: 70px; width: auto; display: block;">
-  </a>
-  <nav class="nav-menu" style="display: flex; align-items: center; gap: 24px; margin-left: auto; margin-right: 24px;">
-    <a href="{base}/">Home</a>
-  </nav>
-  <div class="header-actions">
-    <a href="{base}/#vault" class="btn-cta" style="color: #FF5C1F; text-decoration: none; font-weight: bold; font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px;">Get Your Vault</a>
-  </div>
-</header>
 <main class="wrap">
+  <a class="brand" href="{base}/">GRID<span>DOWN</span>DATA</a>
   <h1>{h1}</h1>
   <p class="answer">{answer}</p>
   <p>{intro}</p>
@@ -185,6 +275,7 @@ def main():
             base=BASE_URL,
             charcoal=CHARCOAL,
             orange=ORANGE,
+            ga_id=GA_ID,
             h1=esc(t["h1"]),
             answer=esc(t["answer"]),
             intro=esc(t["intro"]),
@@ -197,8 +288,7 @@ def main():
         print(f"  generated {url}")
 
     # sitemap.xml
-    if OUT_DIR:
-        os.makedirs(OUT_DIR, exist_ok=True)
+    os.makedirs(OUT_DIR, exist_ok=True)
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
