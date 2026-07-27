@@ -210,6 +210,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   .wrap{{max-width:820px;margin:0 auto;padding:64px 24px}}
   a.brand{{color:#E7E9E5;text-decoration:none;font-weight:800;letter-spacing:.14em;text-transform:uppercase}}
   a.brand span{{color:{orange}}}
+  .logo{{height:58px;width:auto;display:block;margin-bottom:4px}}
   h1{{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:28px 0 16px}}
   .hl{{color:{orange}}}
   .answer{{background:#232A24;border-left:4px solid {orange};border-radius:4px;padding:22px 24px;margin:24px 0;color:#cfd4cd}}
@@ -223,7 +224,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 <main class="wrap">
-  <a class="brand" href="{base}/">GRID<span>DOWN</span>DATA</a>
+  <a class="brand" href="{base}/"><img src="/assets/images/grid-down-logo.png" alt="GridDownData — Knowledge that survives the grid" class="logo"></a>
   <h1>{h1}</h1>
   <p class="answer">{answer}</p>
   <p>{intro}</p>
