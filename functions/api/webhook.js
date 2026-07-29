@@ -1,4 +1,5 @@
 import { getStripe } from './_shared/stripe.js';
+import { DIGITAL_PRODUCTS, arrayBufferToBase64 } from './_shared/digital.js';
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -85,6 +86,59 @@ async function notifyEmail(order, env) {
   }
 }
 
+// Deliver the purchased PDF to the customer, attached to an email, when the
+// order is a digital product. Pulls the file from the private R2 bucket.
+async function deliverDigitalProduct(order, env) {
+  try {
+    const item = DIGITAL_PRODUCTS[order.product];
+    if (!item) return; // not a digital product — nothing to deliver
+    if (!env.SENDGRID_API_KEY) { console.warn('SENDGRID_API_KEY not set; cannot deliver PDF'); return; }
+    if (!env.PDF_BUCKET) { console.warn('PDF_BUCKET not bound; cannot deliver PDF'); return; }
+    if (!order.customer_email) { console.warn('No customer email on order; cannot deliver PDF'); return; }
+
+    const object = await env.PDF_BUCKET.get(item.key);
+    if (!object) { console.error('PDF missing from R2:', item.key); return; }
+    const base64 = arrayBufferToBase64(await object.arrayBuffer());
+
+    const fromEmail = env.FROM_EMAIL || 'orders@griddowndata.com';
+    const baseUrl = env.BASE_URL || 'https://griddowndata.com';
+    const downloadUrl = `${baseUrl}/api/download?session_id=${order.orderId}`;
+
+    const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.SENDGRID_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        personalizations: [{ to: [{ email: order.customer_email }] }],
+        from: { email: fromEmail, name: 'GridDownData' },
+        subject: 'Your Grid-Down Data Blueprint is ready',
+        content: [{
+          type: 'text/plain',
+          value:
+            `Thanks for your order.\n\n` +
+            `Your Grid-Down Data Blueprint is attached to this email as a PDF.\n` +
+            `You can also download it here (link tied to your purchase): ${downloadUrl}\n\n` +
+            `Save it somewhere safe — once downloaded it works with no internet.\n\n` +
+            `— GridDownData`,
+        }],
+        attachments: [{
+          content: base64,
+          filename: item.filename,
+          type: 'application/pdf',
+          disposition: 'attachment',
+        }],
+      }),
+    });
+    if (!res.ok) {
+      console.warn('Digital delivery email failed:', res.status, await res.text());
+    }
+  } catch (err) {
+    console.error('Failed to deliver digital product:', err);
+  }
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -142,7 +196,8 @@ export async function onRequestPost(context) {
     if (env.ORDER_WEBHOOK_URL) {
       await notifyWebhook(order, env.ORDER_WEBHOOK_URL);
     }
-    await notifyEmail(order, env);
+    await notifyEmail(order, env);        // admin notification
+    await deliverDigitalProduct(order, env); // customer PDF delivery (digital orders)
   }
 
   return jsonResponse({ received: true });

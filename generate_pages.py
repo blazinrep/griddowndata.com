@@ -27,7 +27,7 @@ CHARCOAL = "#1A1F1B"
 ORANGE = "#D35400"
 
 # --- Google Analytics 4 measurement ID (site-wide tracking) ---
-GA_ID = "G-C773Y1WZQX"
+GA_ID = "G-ZLH3SR1EZM"
 
 # --- Programmatic topic set: each dict becomes its own indexed page. ---
 # Add rows here to scale the site. Keep answers factual and specific.

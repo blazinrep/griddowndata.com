@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C773Y1WZQX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLH3SR1EZM"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-C773Y1WZQX');
+  gtag('config', 'G-ZLH3SR1EZM');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,20 +57,35 @@
     <a href="/" style="display: block; width: fit-content; margin: 0 auto 28px auto;">
       <img src="/assets/images/grid-down-logo.png" alt="Grid Down" style="height: 70px; width: auto; display: block;">
     </a>
-    <h1>Thank you. <span class="hl">Your kit is coming.</span></h1>
-    <p>We received your order and are processing payment confirmation now. You’ll get an email receipt from Stripe, and we’ll ship your Grid-Down Survival Data Kit within 1–2 business days.</p>
+    <h1 id="headline">Thank you. <span class="hl">Your order is confirmed.</span></h1>
+    <p id="message">We received your order and are confirming payment now. You’ll get an email receipt from Stripe, and we’ll ship your Grid-Down Survival Data Kit within 1–2 business days.</p>
     <p>Order reference:</p>
     <div class="order" id="orderRef">—</div>
     <div>
-      <a class="cta" href="/">Back to GridDownData</a>
+      <a class="cta" id="downloadBtn" href="#" style="display:none">Download your Blueprint</a>
+      <a class="cta" id="homeBtn" href="/" style="background:#3A443B">Back to GridDownData</a>
     </div>
   </main>
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get('session_id');
+      const product = params.get('product');
       if (sessionId) {
         document.getElementById('orderRef').textContent = sessionId;
+      }
+      // Digital order: swap to download-oriented copy and reveal the button.
+      if (product === 'diy-guide') {
+        document.getElementById('headline').innerHTML =
+          'Thank you. <span class="hl">Your blueprint is ready.</span>';
+        document.getElementById('message').textContent =
+          'Your Grid-Down Data Blueprint has been emailed to you as a PDF attachment. ' +
+          'You can also download it instantly below — once saved, it works with no internet.';
+        const dl = document.getElementById('downloadBtn');
+        if (sessionId && dl) {
+          dl.href = '/api/download?session_id=' + encodeURIComponent(sessionId);
+          dl.style.display = 'inline-block';
+        }
       }
     })();
   </script>
