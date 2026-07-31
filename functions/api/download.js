@@ -1,5 +1,6 @@
 import { getStripe } from './_shared/stripe.js';
 import { DIGITAL_PRODUCTS } from './_shared/digital.js';
+import { watermarkPdf } from './_shared/watermark.js';
 
 function textResponse(msg, status = 200) {
   return new Response(msg, { status, headers: { 'Content-Type': 'text/plain' } });
@@ -34,16 +35,29 @@ export async function onRequestGet(context) {
   const item = DIGITAL_PRODUCTS[session.metadata?.product];
   if (!item) return textResponse('No downloadable product is associated with this order.', 404);
 
-  // 3. Pull the object from the private bucket and stream it as an attachment.
+  // 3. Pull the object from the private bucket, stamp a per-buyer watermark,
+  //    and return it as an attachment. If stamping fails for any reason, fall
+  //    back to the original so the paying customer always gets their file.
   const object = await env.PDF_BUCKET.get(item.key);
   if (!object) {
     console.error('Object missing from R2:', item.key);
     return textResponse('The file could not be found. Please contact support.', 404);
   }
 
+  const original = await object.arrayBuffer();
+  let body = original;
+  try {
+    body = await watermarkPdf(original, {
+      email: session.customer_details?.email,
+      orderId: session.id,
+    });
+  } catch (err) {
+    console.error('Watermarking failed, serving original copy:', err);
+  }
+
   const headers = new Headers();
   headers.set('Content-Type', 'application/pdf');
   headers.set('Content-Disposition', `attachment; filename="${item.filename}"`);
   headers.set('Cache-Control', 'no-store');
-  return new Response(object.body, { headers });
+  return new Response(body, { headers });
 }

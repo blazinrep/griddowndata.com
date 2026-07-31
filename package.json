@@ -9,6 +9,7 @@
     "pages:deploy": "wrangler pages deploy"
   },
   "dependencies": {
+    "pdf-lib": "^1.17.1",
     "stripe": "^17.7.0"
   },
   "devDependencies": {

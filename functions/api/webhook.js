@@ -1,5 +1,6 @@
 import { getStripe } from './_shared/stripe.js';
 import { DIGITAL_PRODUCTS, arrayBufferToBase64 } from './_shared/digital.js';
+import { watermarkPdf } from './_shared/watermark.js';
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -98,7 +99,14 @@ async function deliverDigitalProduct(order, env) {
 
     const object = await env.PDF_BUCKET.get(item.key);
     if (!object) { console.error('PDF missing from R2:', item.key); return; }
-    const base64 = arrayBufferToBase64(await object.arrayBuffer());
+    const original = await object.arrayBuffer();
+    let bytes = new Uint8Array(original);
+    try {
+      bytes = await watermarkPdf(original, { email: order.customer_email, orderId: order.orderId });
+    } catch (err) {
+      console.error('Watermarking failed for email delivery, sending original:', err);
+    }
+    const base64 = arrayBufferToBase64(bytes);
 
     const fromEmail = env.FROM_EMAIL || 'orders@griddowndata.com';
     const baseUrl = env.BASE_URL || 'https://griddowndata.com';
