@@ -1,0 +1,4 @@
+# Cloudflare Pages redirects.
+# Memorable gift link: hand out griddowndata.com/gift — it opens a Blueprint
+# checkout with the GDB-GIFT 100%-off code pre-applied (capped at 25 uses).
+/gift    /api/checkout?product=diy-guide&promo=GDB-GIFT    302
