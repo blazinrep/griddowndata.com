@@ -27,7 +27,11 @@ export async function onRequestGet(context) {
     return textResponse('Could not verify your purchase.', 400);
   }
 
-  if (!session || session.payment_status !== 'paid') {
+  // A completed order is either paid, or fully discounted to $0 via a 100%-off
+  // coupon (Stripe reports that as 'no_payment_required').
+  const completed = session &&
+    (session.payment_status === 'paid' || session.payment_status === 'no_payment_required');
+  if (!completed) {
     return textResponse('This purchase is not complete. If you just paid, wait a moment and retry.', 403);
   }
 

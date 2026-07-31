@@ -43,6 +43,8 @@ export async function onRequestPost(context) {
 
     const sessionParams = {
       mode: 'payment',
+      // Let buyers enter a promotion code (e.g. a 100%-off gift/marketing code).
+      allow_promotion_codes: true,
       line_items: [{ price: priceId, quantity: 1 }],
       metadata: { product, price_id: priceId },
       success_url: `${baseUrl}/thank-you.html?session_id={CHECKOUT_SESSION_ID}&product=${product}`,
