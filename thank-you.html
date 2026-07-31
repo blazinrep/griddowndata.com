@@ -85,8 +85,34 @@
           'You can also download it instantly below — once saved, it works with no internet.';
         const dl = document.getElementById('downloadBtn');
         if (sessionId && dl) {
-          dl.href = '/api/download?session_id=' + encodeURIComponent(sessionId);
+          const url = '/api/download?session_id=' + encodeURIComponent(sessionId);
+          dl.href = url;
           dl.style.display = 'inline-block';
+          // Auto-retry on cold-start 5xx so a transient hiccup is invisible.
+          dl.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const label = dl.textContent;
+            dl.textContent = 'Preparing…'; dl.style.pointerEvents = 'none';
+            for (let attempt = 0; attempt < 4; attempt++) {
+              try {
+                const r = await fetch(url, { cache: 'no-store' });
+                if (r.ok) {
+                  const blob = await r.blob();
+                  const a = document.createElement('a');
+                  a.href = URL.createObjectURL(blob);
+                  a.download = 'grid-down-data-blueprint.pdf';
+                  document.body.appendChild(a); a.click(); a.remove();
+                  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+                  dl.textContent = label; dl.style.pointerEvents = '';
+                  return;
+                }
+              } catch (err) { /* network blip — fall through to retry */ }
+              await new Promise(function(res){ setTimeout(res, 800 * (attempt + 1)); });
+            }
+            // All retries failed — fall back to a direct navigation.
+            dl.textContent = label; dl.style.pointerEvents = '';
+            window.location.href = url;
+          });
         }
       }
     })();
