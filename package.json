@@ -9,6 +9,7 @@
     "pages:deploy": "wrangler pages deploy"
   },
   "dependencies": {
+    "aws4fetch": "^1.0.20",
     "pdf-lib": "^1.17.1",
     "stripe": "^17.7.0"
   },

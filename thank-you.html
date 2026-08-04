@@ -67,6 +67,7 @@
       <a class="cta" id="downloadBtn" href="#" style="display:none">Download your Blueprint</a>
       <a class="cta" id="homeBtn" href="/" style="background:#3A443B">Back to GridDownData</a>
     </div>
+    <div id="osPackList" style="display:none;text-align:left;margin-top:26px"></div>
   </main>
   <script>
     (function() {
@@ -113,6 +114,41 @@
             dl.textContent = label; dl.style.pointerEvents = '';
             window.location.href = url;
           });
+        }
+      }
+      // OS Pack order: multiple large files, delivered as direct R2 links.
+      // Each file downloads straight from R2 (not through this site), so
+      // there's no single "Download" button — just a list, one per file.
+      if (product === 'os-pack') {
+        document.getElementById('headline').innerHTML =
+          'Thank you. <span class="hl">Your OS Pack is ready.</span>';
+        document.getElementById('message').textContent =
+          'Your OS Pack is a large bundle (~86GB across several files), so it is delivered as direct ' +
+          'download links below and by email — download them one at a time. Links are valid for 48 hours.';
+        var listEl = document.getElementById('osPackList');
+        if (sessionId && listEl) {
+          listEl.style.display = 'block';
+          listEl.innerHTML = '<p style="color:#A9B0A6;text-align:center">Preparing your download links…</p>';
+          fetch('/api/os-pack-links?session_id=' + encodeURIComponent(sessionId), { cache: 'no-store' })
+            .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+            .then(function (res) {
+              if (!res.ok || !res.d.files) {
+                listEl.innerHTML = '<p style="color:#E5484D;text-align:center">' +
+                  (res.d && res.d.error ? res.d.error : 'Could not load your downloads. Please contact support.') +
+                  '</p>';
+                return;
+              }
+              var rows = res.d.files.map(function (f) {
+                return '<a href="' + f.url + '" style="display:flex;justify-content:space-between;gap:12px;' +
+                  'background:#1A1F1B;border:1px solid #3A443B;border-radius:4px;padding:14px 18px;margin:8px 0;' +
+                  'color:#E7E9E5;text-decoration:none;font-weight:700">' +
+                  '<span>' + f.label + '</span><span style="color:#D35400">Download →</span></a>';
+              }).join('');
+              listEl.innerHTML = rows;
+            })
+            .catch(function () {
+              listEl.innerHTML = '<p style="color:#E5484D;text-align:center">Network error loading your downloads. Refresh to try again.</p>';
+            });
         }
       }
     })();

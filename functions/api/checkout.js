@@ -7,10 +7,13 @@ function jsonResponse(body, status = 200) {
   });
 }
 
-// Two SKUs: physical drive (ships) and DIY guide PDF (digital, no shipping).
+// Three SKUs: physical drive (ships), DIY guide PDF (digital, no shipping),
+// and the OS Pack (digital, no shipping — delivered as a set of direct R2
+// download links instead of a single PDF; see os-pack-links.js).
 const CATALOG = {
   'complete-kit': { priceEnv: 'STRIPE_PRICE_KIT', physical: true },
   'diy-guide': { priceEnv: 'STRIPE_PRICE_DIY', physical: false },
+  'os-pack': { priceEnv: 'STRIPE_PRICE_OS_PACK', physical: false },
 };
 
 // Build the base Checkout Session params for a product. Returns { error } if the
