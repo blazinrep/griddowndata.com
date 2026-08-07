@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLH3SR1EZM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZLH3SR1EZM');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy &amp; Fuel Calculator | GridDownData</title>
+<meta name="description" content="Generator runtime, vehicle range, and solar/battery autonomy — three offline calculators that run entirely in your browser with no internet connection. Included in every GridDownData vault.">
+<link rel="canonical" href="https://griddowndata.com/00_README_and_Blueprint/energy-fuel-calculator.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#1A1F1B">
+<style>
+  body{background:#1A1F1B;color:#E7E9E5;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding:64px 24px}
+  a.brand{color:#E7E9E5;text-decoration:none;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  a.brand span{color:#D35400}
+  .logo{height:58px;width:auto;display:block;margin-bottom:4px}
+  h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:28px 0 16px}
+  .hl{color:#D35400}
+  .answer{background:#232A24;border-left:4px solid #D35400;border-radius:4px;padding:22px 24px;margin:24px 0;color:#cfd4cd}
+  h2{margin:44px 0 4px;font-size:22px}
+  .mod-sub{color:#A9B0A6;margin:0 0 18px;font-size:14px}
+  .calc{background:#232A24;border:1px solid #3A443B;border-radius:4px;padding:24px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
+  @media (max-width:560px){.field-row{grid-template-columns:1fr}}
+  .field label{display:block;font-size:12px;color:#A9B0A6;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .field input{width:100%;background:#1A1F1B;border:1px solid #3A443B;color:#E7E9E5;padding:11px 12px;border-radius:3px;font-size:15px;font-family:inherit}
+  .field input:focus{outline:none;border-color:#D35400}
+  .result{margin-top:16px;background:#1A1F1B;border:1px solid #D35400;border-radius:4px;padding:18px 20px}
+  .result .headline{font-size:22px;font-weight:800;color:#fff}
+  .result .sub{color:#A9B0A6;font-size:13px;margin-top:6px}
+  .cta{display:inline-block;margin-top:44px;background:#D35400;color:#fff;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:18px 34px;border-radius:3px}
+  .note{font-size:12px;color:#7F8A7A;margin-top:10px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="brand" href="https://griddowndata.com/"><img src="/assets/images/grid-down-logo.png" alt="GridDownData — Knowledge that survives the grid" class="logo"></a>
+  <h1>Three calculators. Zero internet required.</h1>
+  <p class="answer">Generator runtime, vehicle range, and solar/battery autonomy — all three run entirely in this page's own JavaScript, so they work exactly the same offline from the vault as they do here. Nothing you enter is saved, stored, or sent anywhere; every number resets when you reload the page.</p>
+
+  <!-- MODULE 1: GENERATOR RUNTIME -->
+  <h2>Generator Runtime</h2>
+  <p class="mod-sub">How long your stored fuel keeps a generator running, and how many days of supply that gives you.</p>
+  <div class="calc">
+    <div class="field-row">
+      <div class="field"><label>Total fuel stored (gallons)</label><input type="number" id="genFuel" step="0.1" placeholder="e.g., 20" oninput="calcGenerator()"></div>
+      <div class="field"><label>Consumption rate (gal/hr at your load)</label><input type="number" id="genRate" step="0.01" placeholder="e.g., 0.75" oninput="calcGenerator()"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Hours you plan to run it per day</label><input type="number" id="genHoursPerDay" step="0.5" placeholder="e.g., 8" oninput="calcGenerator()"></div>
+    </div>
+    <div class="result" id="genResult">
+      <div class="headline">Enter your numbers above</div>
+      <div class="sub">Consumption rate is on your generator's spec sheet, or estimate: small (2,000–3,500W) gas generators run roughly 0.3–0.6 gal/hr at 50% load; mid-size (5,000–7,500W) run roughly 0.6–1.1 gal/hr.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 2: VEHICLE RANGE -->
+  <h2>Vehicle Range</h2>
+  <p class="mod-sub">Total drivable distance on your tank, plus any fuel you have stored in cans.</p>
+  <div class="calc">
+    <div class="field-row">
+      <div class="field"><label>Fuel tank capacity (gallons)</label><input type="number" id="vehTank" step="0.1" placeholder="e.g., 14" oninput="calcVehicle()"></div>
+      <div class="field"><label>Fuel economy (MPG)</label><input type="number" id="vehMpg" step="0.1" placeholder="e.g., 28" oninput="calcVehicle()"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Extra fuel stored in cans (gallons, optional)</label><input type="number" id="vehExtra" step="0.1" placeholder="e.g., 10" oninput="calcVehicle()"></div>
+    </div>
+    <div class="result" id="vehResult">
+      <div class="headline">Enter your numbers above</div>
+      <div class="sub">Use real-world MPG, not the window-sticker number — it runs lower under load, in cold weather, or off-road.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 3: SOLAR / BATTERY AUTONOMY -->
+  <h2>Off-Grid Solar / Battery Autonomy</h2>
+  <p class="mod-sub">How many days a battery bank lasts on its own, and whether solar input keeps up with your daily load.</p>
+  <div class="calc">
+    <div class="field-row">
+      <div class="field"><label>Battery capacity (Wh)</label><input type="number" id="solBattery" step="10" placeholder="e.g., 1000" oninput="calcSolar()"></div>
+      <div class="field"><label>Daily load (Wh/day)</label><input type="number" id="solLoad" step="10" placeholder="e.g., 300" oninput="calcSolar()"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Solar panel output (W, optional)</label><input type="number" id="solPanel" step="10" placeholder="e.g., 100" oninput="calcSolar()"></div>
+      <div class="field"><label>Average usable sun hours/day (optional)</label><input type="number" id="solSunHours" step="0.5" placeholder="e.g., 4" oninput="calcSolar()"></div>
+    </div>
+    <div class="result" id="solResult">
+      <div class="headline">Enter your numbers above</div>
+      <div class="sub">Solar generation estimate applies a 0.75 system-loss factor for charge controller, wiring, and inverter inefficiency — a realistic number, not the panel's rated peak.</div>
+    </div>
+  </div>
+
+  <p class="note">All three calculators use straightforward arithmetic, not simulation — verify anything safety-critical against your own equipment's documentation.</p>
+
+  <a class="cta" href="https://griddowndata.com/#offer">Get Your Vault</a>
+</main>
+<script>
+  function fmt(n, decimals){
+    if (!isFinite(n)) return "—";
+    return n.toLocaleString(undefined, {maximumFractionDigits: decimals === undefined ? 1 : decimals});
+  }
+
+  function calcGenerator(){
+    var fuel = parseFloat(document.getElementById('genFuel').value);
+    var rate = parseFloat(document.getElementById('genRate').value);
+    var hoursPerDay = parseFloat(document.getElementById('genHoursPerDay').value);
+    var el = document.getElementById('genResult');
+    if (!fuel || !rate || fuel <= 0 || rate <= 0){
+      el.querySelector('.headline').textContent = 'Enter your numbers above';
+      el.querySelector('.sub').textContent = "Consumption rate is on your generator's spec sheet, or estimate: small (2,000–3,500W) gas generators run roughly 0.3–0.6 gal/hr at 50% load; mid-size (5,000–7,500W) run roughly 0.6–1.1 gal/hr.";
+      return;
+    }
+    var totalHours = fuel / rate;
+    var headline = fmt(totalHours) + ' hours of total runtime';
+    var sub = 'From ' + fmt(fuel) + ' gal at ' + fmt(rate, 2) + ' gal/hr.';
+    if (hoursPerDay > 0){
+      var days = totalHours / hoursPerDay;
+      sub += ' Running ' + fmt(hoursPerDay) + ' hrs/day, that\'s about ' + fmt(days) + ' days of supply.';
+    }
+    el.querySelector('.headline').textContent = headline;
+    el.querySelector('.sub').textContent = sub;
+  }
+
+  function calcVehicle(){
+    var tank = parseFloat(document.getElementById('vehTank').value);
+    var mpg = parseFloat(document.getElementById('vehMpg').value);
+    var extra = parseFloat(document.getElementById('vehExtra').value) || 0;
+    var el = document.getElementById('vehResult');
+    if (!tank || !mpg || tank <= 0 || mpg <= 0){
+      el.querySelector('.headline').textContent = 'Enter your numbers above';
+      el.querySelector('.sub').textContent = 'Use real-world MPG, not the window-sticker number — it runs lower under load, in cold weather, or off-road.';
+      return;
+    }
+    var tankRange = tank * mpg;
+    var totalRange = (tank + extra) * mpg;
+    var headline = fmt(tankRange, 0) + ' miles on a full tank';
+    var sub = fmt(tank) + ' gal × ' + fmt(mpg) + ' MPG.';
+    if (extra > 0){
+      sub += ' With ' + fmt(extra) + ' extra gal stored: ' + fmt(totalRange, 0) + ' total miles.';
+    }
+    el.querySelector('.headline').textContent = headline;
+    el.querySelector('.sub').textContent = sub;
+  }
+
+  function calcSolar(){
+    var battery = parseFloat(document.getElementById('solBattery').value);
+    var load = parseFloat(document.getElementById('solLoad').value);
+    var panel = parseFloat(document.getElementById('solPanel').value) || 0;
+    var sunHours = parseFloat(document.getElementById('solSunHours').value) || 0;
+    var el = document.getElementById('solResult');
+    if (!battery || !load || battery <= 0 || load <= 0){
+      el.querySelector('.headline').textContent = 'Enter your numbers above';
+      el.querySelector('.sub').textContent = 'Solar generation estimate applies a 0.75 system-loss factor for charge controller, wiring, and inverter inefficiency — a realistic number, not the panel\'s rated peak.';
+      return;
+    }
+    var daysNoSolar = battery / load;
+    var headline = fmt(daysNoSolar) + ' days of autonomy with no recharge';
+    var sub = fmt(battery, 0) + ' Wh battery ÷ ' + fmt(load, 0) + ' Wh/day load.';
+    if (panel > 0 && sunHours > 0){
+      var dailySolar = panel * sunHours * 0.75;
+      var net = dailySolar - load;
+      sub += ' Solar generates about ' + fmt(dailySolar, 0) + ' Wh/day at ' + fmt(panel, 0) + 'W × ' + fmt(sunHours) + ' hrs (0.75 system efficiency).';
+      if (net >= 0){
+        sub += ' That covers your load with a surplus of about ' + fmt(net, 0) + ' Wh/day — the battery should sustain indefinitely under these conditions.';
+      } else {
+        var daysWithSolar = battery / Math.abs(net);
+        sub += ' That falls short of your load by about ' + fmt(Math.abs(net), 0) + ' Wh/day, giving roughly ' + fmt(daysWithSolar) + ' days before the battery is drawn down, assuming it starts full.';
+      }
+    }
+    el.querySelector('.headline').textContent = headline;
+    el.querySelector('.sub').textContent = sub;
+  }
+</script>
+</body>
+</html>

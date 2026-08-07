@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLH3SR1EZM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZLH3SR1EZM');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARCH Trauma Assessment (Interactive) | GridDownData</title>
+<meta name="description" content="The MARCH sequence — Massive hemorrhage, Airway, Respiration, Circulation, Hypothermia/Head injury — walked step by step for treating a casualty when professional care is delayed. Included in every GridDownData vault.">
+<link rel="canonical" href="https://griddowndata.com/02_Custom_Survival_Checklists/medical/march-assessment.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#1A1F1B">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://griddowndata.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Offline Medical Reference", "item": "https://griddowndata.com/offline-medical-reference/" },
+    { "@type": "ListItem", "position": 3, "name": "MARCH Trauma Assessment", "item": "https://griddowndata.com/02_Custom_Survival_Checklists/medical/march-assessment.html" }
+  ]
+}
+</script>
+<style>
+  body{background:#1A1F1B;color:#E7E9E5;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0}
+  .wrap{max-width:820px;margin:0 auto;padding:64px 24px}
+  a.brand{color:#E7E9E5;text-decoration:none;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  a.brand span{color:#D35400}
+  .logo{height:58px;width:auto;display:block;margin-bottom:4px}
+  h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:28px 0 16px}
+  .hl{color:#D35400}
+  .answer{background:#232A24;border-left:4px solid #D35400;border-radius:4px;padding:22px 24px;margin:24px 0;color:#cfd4cd}
+  h2{margin:40px 0 4px}
+  .step-sub{color:#A9B0A6;margin:0 0 18px}
+  .step{background:#232A24;border:1px solid #3A443B;border-left:4px solid #D35400;border-radius:4px;padding:20px 22px;margin:14px 0}
+  .step label{display:flex;gap:14px;align-items:flex-start;cursor:pointer;font-weight:700;color:#fff;font-size:17px}
+  .step input[type=checkbox]{margin-top:4px;width:20px;height:20px;accent-color:#D35400;flex-shrink:0}
+  .step .letter{color:#D35400;font-weight:800;min-width:26px}
+  .step ul{color:#A9B0A6;margin:12px 0 4px 40px;padding:0 0 0 18px}
+  .step li{margin-bottom:6px}
+  .step.done{opacity:.55}
+  .step.done label{text-decoration:line-through}
+  .cta{display:inline-block;margin-top:36px;background:#D35400;color:#fff;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:18px 34px;border-radius:3px}
+  .warn{background:#2E2620;border:1px solid #5A3D1F;border-radius:4px;padding:16px 20px;color:#E0B98A;font-size:14px;margin:28px 0}
+  .resetlink{color:#D35400;font-size:13px;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="brand" href="https://griddowndata.com/"><img src="/assets/images/grid-down-logo.png" alt="GridDownData — Knowledge that survives the grid" class="logo"></a>
+  <h1>MARCH: the order you check a casualty in, every time.</h1>
+  <p class="answer">MARCH is the trauma-care sequence used by military and civilian first responders to find and treat the injuries most likely to kill a person first: Massive hemorrhage, Airway, Respiration, Circulation, Hypothermia/Head injury. Work the letters in order — don't skip ahead to a visible injury before ruling out the one that kills faster. This reference is included offline in every GridDownData vault; it does not replace professional medical training or care.</p>
+
+  <p class="step-sub">Tap each step to mark it checked as you work through an assessment. This page resets when you reload it — nothing is saved or transmitted.</p>
+
+  <div id="steps">
+    <div class="step" data-step="1">
+      <label><input type="checkbox" onchange="toggleStep(this)"><span><span class="letter">M</span> — Massive Hemorrhage</span></label>
+      <ul>
+        <li>Scan the whole body fast for spurting or pooling blood — clothing hides wounds.</li>
+        <li>Extremity bleed that won't stop with direct pressure: apply a tourniquet 2–3 inches above the wound, never on a joint. Write the application time on the strap.</li>
+        <li>Junctional or torso bleed (groin, armpit, neck): pack the wound tightly with gauze and hold firm direct pressure — a tourniquet can't reach these.</li>
+        <li>If bleeding continues after a tourniquet is fully tightened, apply a second one directly above the first.</li>
+      </ul>
+    </div>
+
+    <div class="step" data-step="2">
+      <label><input type="checkbox" onchange="toggleStep(this)"><span><span class="letter">A</span> — Airway</span></label>
+      <ul>
+        <li>Check responsiveness. If unconscious and breathing, open the airway with a head-tilt/chin-lift.</li>
+        <li>Suspect a spinal injury (fall, blast, vehicle collision)? Use a jaw-thrust instead — don't tilt the head.</li>
+        <li>Clear visible obstructions (blood, vomit, debris) with a finger sweep only if you can see it.</li>
+        <li>Breathing and unconscious with no spinal concern: place in the recovery position so the airway stays clear if they vomit.</li>
+      </ul>
+    </div>
+
+    <div class="step" data-step="3">
+      <label><input type="checkbox" onchange="toggleStep(this)"><span><span class="letter">R</span> — Respiration</span></label>
+      <ul>
+        <li>Look, listen, and feel for breathing for at least 10 seconds.</li>
+        <li>Expose the chest. An open or "sucking" chest wound gets a chest seal — a 3-sided taped occlusive dressing works if you don't have a commercial seal.</li>
+        <li>Watch for tension pneumothorax: worsening shortness of breath, one side of the chest not rising, bluish skin. This is a rapid-decline emergency — get to advanced care immediately if at all possible.</li>
+      </ul>
+    </div>
+
+    <div class="step" data-step="4">
+      <label><input type="checkbox" onchange="toggleStep(this)"><span><span class="letter">C</span> — Circulation</span></label>
+      <ul>
+        <li>Check a pulse. A radial (wrist) pulse present roughly correlates with a systolic blood pressure above 80 mmHg; if absent, check the carotid (neck).</li>
+        <li>Re-scan for bleeding sources you may have missed in step M, including the back and scalp.</li>
+        <li>Treat for shock: keep the person warm, lay flat with legs elevated if there's no suspected spinal or leg injury, and don't give food or water if surgery may be needed.</li>
+      </ul>
+    </div>
+
+    <div class="step" data-step="5">
+      <label><input type="checkbox" onchange="toggleStep(this)"><span><span class="letter">H</span> — Hypothermia / Head Injury</span></label>
+      <ul>
+        <li>Remove wet clothing and insulate the person from the ground — heat loss to cold ground is faster than to cold air.</li>
+        <li>Cover to retain body heat; a reflective blanket or dry layers both work.</li>
+        <li>Check pupil response and consciousness level using AVPU: Alert, responds to Verbal, responds to Pain, Unresponsive.</li>
+        <li>Worsening confusion, repeated vomiting, or unequal pupils after a head injury are red flags for a serious traumatic brain injury — treat as a priority evacuation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">This reference is for use when professional medical care is delayed or unreachable. It does not replace training, a first-aid course, or a clinician's judgment. Seek qualified care as soon as it becomes available.</div>
+
+  <p><a class="resetlink" href="javascript:location.reload()">Reset checklist</a></p>
+
+  <p style="margin-top:28px;color:#A9B0A6">See the tool this sequence tells you to reach for: <a href="https://griddowndata.com/02_Custom_Survival_Checklists/medical/tourniquet.html" style="color:#D35400;font-weight:700">Tourniquet Application Guide</a>. For the broader reference library, see <a href="https://griddowndata.com/offline-medical-reference/" style="color:#D35400;font-weight:700">Offline Medical Reference</a>.</p>
+  <a class="cta" href="https://griddowndata.com/#offer">Get Your Vault</a>
+</main>
+<script>
+  function toggleStep(cb){
+    var step = cb.closest('.step');
+    step.classList.toggle('done', cb.checked);
+  }
+</script>
+</body>
+</html>
