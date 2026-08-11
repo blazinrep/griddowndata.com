@@ -459,9 +459,6 @@
     .tier h3{flex-direction:column;align-items:flex-start;gap:8px}
   }
 </style>
-<!-- Lemon Squeezy overlay: opens the Build Guide checkout in a modal instead of a new tab.
-     Progressive enhancement — if it fails to load, the link still opens the hosted checkout. -->
-<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 <!-- MailerLite Universal -->
 <script>
 (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
@@ -879,7 +876,7 @@ ml('account', '2342326');
 
         <div class="price-grid">
 
-          <!-- TIER 1: DIY Build Guide (Lemon Squeezy) -->
+          <!-- TIER 1: DIY Build Guide -->
           <div class="pcard">
             <div class="ptype">Do-it-yourself</div>
             <div class="pname">The Build Guide</div>
@@ -899,7 +896,7 @@ ml('account', '2342326');
             <div class="perr" data-err="diy-guide"></div>
           </div>
 
-          <!-- TIER 2: Emergency OS Pack (Lemon Squeezy) -->
+          <!-- TIER 2: Emergency OS Pack -->
           <div class="pcard featured">
             <div class="pbadge">Best value</div>
             <div class="ptype">The software</div>
@@ -1057,8 +1054,7 @@ ml('account', '2342326');
       noResults.style.display = (dynamicMatchCount === 0) ? "block" : "none";
   }
 
-  /* ===== Stripe checkout (physical Vault Drive only). The DIY guide uses a
-     direct Lemon Squeezy link and needs no JS. ===== */
+  /* ===== Stripe checkout for all digital products via /api/checkout. ===== */
   document.querySelectorAll('#pricing button[data-product]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var product = btn.getAttribute('data-product');
