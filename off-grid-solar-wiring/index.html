@@ -11,23 +11,53 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Off-Grid Solar Wiring Reference on USB | Panels, Charge Controllers &amp; Battery Banks</title>
-<meta name="description" content="Panels on the roof mean nothing if the charge controller is undersized, the wire gauge drops voltage, or the fuses are missing. GridDownData carries offline references for sizing conductors, wiring panels in series and parallel, matching charge controllers to battery banks, and protecting the whole system with correct overcurrent devices — stored on an air-gapped USB drive that keeps working after the power does.">
+<title>Off-Grid Solar Wiring: Planning and Electrical Safety | GridDownData</title>
+<meta name="description" content="Understand solar wiring concepts, DC protection, equipment limits and when to consult a qualified installer.">
 <link rel="canonical" href="https://griddowndata.com/off-grid-solar-wiring/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#1A1F1B">
 <meta property="og:type" content="article">
-<meta property="og:title" content="When the grid dies, your solar array is only as good as its wiring.">
-<meta property="og:description" content="Panels on the roof mean nothing if the charge controller is undersized, the wire gauge drops voltage, or the fuses are missing. GridDownData carries offline references for sizing conductors, wiring panels in series and parallel, matching charge controllers to battery banks, and protecting the whole system with correct overcurrent devices — stored on an air-gapped USB drive that keeps working after the power does.">
+<meta property="og:title" content="Off-Grid Solar Wiring: Planning and Electrical Safety">
+<meta property="og:description" content="Understand solar wiring concepts, DC protection, equipment limits and when to consult a qualified installer.">
 <meta property="og:url" content="https://griddowndata.com/off-grid-solar-wiring/">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [{ "@type": "Question", "name": "How do I size wire for an off-grid solar run?", "acceptedAnswer": { "@type": "Answer", "text": "Wire gauge depends on current, distance, and acceptable voltage drop. Longer DC runs at low voltage lose more energy, so heavier conductors keep the drop under a few percent. The offline reference includes gauge-versus-length tables and worked examples so you can size conductors correctly without an internet connection." } },
-    { "@type": "Question", "name": "Should solar panels be wired in series or parallel?", "acceptedAnswer": { "@type": "Answer", "text": "Series wiring raises voltage and suits longer runs and higher-voltage charge controllers, while parallel wiring keeps voltage low but raises current. Most real arrays combine both. The reference explains the trade-offs, shows how each affects charge-controller selection, and helps you match the array to your battery bank safely." } },
-    { "@type": "Question", "name": "Why does DC solar wiring need fuses and breakers?", "acceptedAnswer": { "@type": "Answer", "text": "Batteries can deliver enormous fault current, so unprotected wiring can overheat and start a fire. Correctly rated fuses and DC breakers on each conductor interrupt faults before damage occurs. The offline guide covers where to place overcurrent protection, how to size it to the wire, and common wiring mistakes that cause failures." } },
-    { "@type": "Question", "name": "Does the reference cover inverters and battery banks?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Beyond the array itself, it explains matching inverter capacity to your loads, sizing a battery bank for realistic daily use and depth of discharge, and wiring the two together through a charge controller. This lets you plan a complete system rather than just connecting panels in isolation." } }]
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I size wire for an off-grid solar run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Size conductors for ampacity, voltage drop, insulation rating, installation conditions and relevant electrical code requirements. A voltage-drop chart alone is not sufficient."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should solar panels be wired in series or parallel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Series connections increase voltage; parallel connections increase current. Verify controller limits, including cold-weather open-circuit voltage and maximum input current, with a qualified installer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does DC solar wiring need fuses and breakers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use correctly rated DC protective devices where required by the equipment and electrical code. Battery fault currents can be extremely high. Have protection and disconnect placement designed by a qualified installer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the reference cover inverters and battery banks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plan load demand, battery chemistry, inverter capacity, charging limits and protection as a system. Follow listed equipment instructions and seek professional installation."
+      }
+    }
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -60,17 +90,19 @@
 <body>
 <main class="wrap">
   <a class="brand" href="https://griddowndata.com/"><img src="/assets/images/grid-down-logo.png" alt="GridDownData — Knowledge that survives the grid" class="logo"></a>
-  <h1>When the grid dies, your solar array is only as good as its wiring.</h1>
-  <p class="answer">Off-grid solar wiring is the discipline of connecting panels, charge controllers, batteries, and inverters safely so a system produces usable power without utility service. It covers series-versus-parallel panel arrays, correct wire gauge to limit voltage drop over distance, DC fusing and breakers, and grounding. GridDownData stores these references on an air-gapped USB drive so they remain available during outages, off-grid, or any time you must build or repair a system without internet access.</p>
-  <p>Panels on the roof mean nothing if the charge controller is undersized, the wire gauge drops voltage, or the fuses are missing. GridDownData carries offline references for sizing conductors, wiring panels in series and parallel, matching charge controllers to battery banks, and protecting the whole system with correct overcurrent devices — stored on an air-gapped USB drive that keeps working after the power does.</p>
+  <h1>Off-Grid Solar Wiring: Planning and Electrical Safety</h1>
+  <p class="answer">Off-grid solar systems combine panels, controllers, batteries and inverters. Planning must account for voltage, current, conductor ampacity, protective devices and applicable electrical codes. Batteries and solar arrays can remain energized and cause severe injury or fire.</p>
+  <p>Use manufacturer installation instructions and a qualified installer for system design and wiring. This overview is not a wiring diagram or authorization to work on energized equipment.</p>
   <h2>Frequently asked <span class="hl">questions</span></h2>
-  <details><summary>How do I size wire for an off-grid solar run?</summary><p>Wire gauge depends on current, distance, and acceptable voltage drop. Longer DC runs at low voltage lose more energy, so heavier conductors keep the drop under a few percent. The offline reference includes gauge-versus-length tables and worked examples so you can size conductors correctly without an internet connection.</p></details>
-  <details><summary>Should solar panels be wired in series or parallel?</summary><p>Series wiring raises voltage and suits longer runs and higher-voltage charge controllers, while parallel wiring keeps voltage low but raises current. Most real arrays combine both. The reference explains the trade-offs, shows how each affects charge-controller selection, and helps you match the array to your battery bank safely.</p></details>
-  <details><summary>Why does DC solar wiring need fuses and breakers?</summary><p>Batteries can deliver enormous fault current, so unprotected wiring can overheat and start a fire. Correctly rated fuses and DC breakers on each conductor interrupt faults before damage occurs. The offline guide covers where to place overcurrent protection, how to size it to the wire, and common wiring mistakes that cause failures.</p></details>
-  <details><summary>Does the reference cover inverters and battery banks?</summary><p>Yes. Beyond the array itself, it explains matching inverter capacity to your loads, sizing a battery bank for realistic daily use and depth of discharge, and wiring the two together through a charge controller. This lets you plan a complete system rather than just connecting panels in isolation.</p></details>
+  <details><summary>How do I size wire for an off-grid solar run?</summary><p>Size conductors for ampacity, voltage drop, insulation rating, installation conditions and relevant electrical code requirements. A voltage-drop chart alone is not sufficient.</p></details>
+  <details><summary>Should solar panels be wired in series or parallel?</summary><p>Series connections increase voltage; parallel connections increase current. Verify controller limits, including cold-weather open-circuit voltage and maximum input current, with a qualified installer.</p></details>
+  <details><summary>Why does DC solar wiring need fuses and breakers?</summary><p>Use correctly rated DC protective devices where required by the equipment and electrical code. Battery fault currents can be extremely high. Have protection and disconnect placement designed by a qualified installer.</p></details>
+  <details><summary>Does the reference cover inverters and battery banks?</summary><p>Plan load demand, battery chemistry, inverter capacity, charging limits and protection as a system. Follow listed equipment instructions and seek professional installation.</p></details>
   <p style="margin-top:28px;color:#A9B0A6">Wiring a system is only half the job — see the <a href="https://griddowndata.com/survival-gear-hub/#power" style="color:#D35400;font-weight:700">Survival Gear Hub's power station pick</a> to know what you're wiring it to.</p>
   <p style="margin-top:16px;color:#A9B0A6">Power is only worth having if it lights the room — see <a href="https://griddowndata.com/off-grid-lighting/" style="color:#D35400;font-weight:700">Off-Grid Lighting</a>.</p>
-  <a class="cta" href="https://griddowndata.com/#offer">Get Your Vault</a>
+  <p class="related">Related guide: <a href="https://griddowndata.com/off-grid-wind-power/">Off-Grid Wind Power</a></p>
+  <a class="cta" href="https://griddowndata.com/blueprint/">Explore the $24 Blueprint</a>
+  <p>Prefer the software bundle? <a href="https://griddowndata.com/#pricing">See the Emergency OS Pack and current product options.</a></p>
 </main>
 </body>
 </html>
