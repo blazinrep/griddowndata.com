@@ -176,12 +176,13 @@ async function deliverOsPack(order, env) {
     const linkLines = files.map((f) => `- ${f.label}: ${f.url}`).join('\n');
     const body =
       `Thanks for your order.\n\n` +
-      `Your OS Pack is a large bundle (multiple files, ~86GB total), so it's delivered as direct download ` +
+      `Your OS Pack is a large bundle (multiple files), so it's delivered as direct download ` +
       `links below instead of an email attachment. Each link works on its own — download them one at a time, ` +
       `and if one is interrupted you only need to retry that file, not the whole bundle.\n\n` +
       `These links expire in 48 hours. You can also revisit your download page any time before then:\n` +
       `${downloadPageUrl}\n\n` +
       `${linkLines}\n\n` +
+      `Optional free resource: Download iFixit for personal use from https://library.kiwix.org/. Search for iFixit and save the ZIM file in your 01_Kiwix_Offline_Wikis folder.\n\n` +
       `Save everything somewhere safe — once downloaded it all works with no internet.\n\n` +
       `— GridDownData`;
 
