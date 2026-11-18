@@ -36,12 +36,6 @@ export const OS_PACK_FILES = [
     sizeHint: '2.3 GB',
   },
   {
-    key: 'os-pack/ifixit_en_all_2025-12.zim',
-    filename: 'ifixit_en_all_2025-12.zim',
-    label: 'iFixit — repair guides for everything (ZIM)',
-    sizeHint: '3.3 GB',
-  },
-  {
     key: 'os-pack/wikibooks_en_all_maxi_2026-04.zim',
     filename: 'wikibooks_en_all_maxi_2026-04.zim',
     label: 'Wikibooks — full how-to library (ZIM)',
