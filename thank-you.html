@@ -119,16 +119,22 @@
       // OS Pack order: multiple large files, delivered as direct R2 links.
       // Each file downloads straight from R2 (not through this site), so
       // there's no single "Download" button — just a list, one per file.
+      // NOTE (2026-11-20): OS Pack downloads are TEMPORARILY PAUSED for an
+      // OsmAnd content licensing review — see functions/api/_shared/os-pack-
+      // pause.js. /api/os-pack-links now returns 503, and the error text
+      // below is shown instead of the link list. Paid orders stay on file;
+      // links are emailed once the review is complete.
       if (product === 'os-pack') {
         document.getElementById('headline').innerHTML =
-          'Thank you. <span class="hl">Your OS Pack is ready.</span>';
+          'Thank you. <span class="hl">Your OS Pack order is on file.</span>';
         document.getElementById('message').textContent =
-          'Your OS Pack is a large bundle across several files, so it is delivered as direct ' +
-          'download links below and by email — download them one at a time. Links are valid for 48 hours.';
+          'OS Pack downloads are temporarily paused while we complete a content licensing review. ' +
+          'If you already paid, your order is safe — your download links will be emailed to you ' +
+          'once the review is complete.';
         var listEl = document.getElementById('osPackList');
         if (sessionId && listEl) {
           listEl.style.display = 'block';
-          listEl.innerHTML = '<p style="color:#A9B0A6;text-align:center">Preparing your download links…</p>';
+          listEl.innerHTML = '<p style="color:#A9B0A6;text-align:center">Checking your download status…</p>';
           fetch('/api/os-pack-links?session_id=' + encodeURIComponent(sessionId), { cache: 'no-store' })
             .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
             .then(function (res) {

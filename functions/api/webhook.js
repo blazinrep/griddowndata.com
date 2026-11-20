@@ -3,6 +3,7 @@ import { DIGITAL_PRODUCTS, arrayBufferToBase64 } from './_shared/digital.js';
 import { watermarkPdf } from './_shared/watermark.js';
 import { presignR2Get, r2Configured } from './_shared/r2-presign.js';
 import { OS_PACK_FILES } from './_shared/os-pack-manifest.js';
+import { OS_PACK_PAUSED } from './_shared/os-pack-pause.js';
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -158,6 +159,19 @@ async function deliverDigitalProduct(order, env) {
 async function deliverOsPack(order, env) {
   try {
     if (order.product !== 'os-pack') return; // not this product — nothing to do
+
+    // TEMPORARY PAUSE (2026-11-20): OsmAnd content licensing review — see
+    // _shared/os-pack-pause.js. Do NOT generate or email new OS Pack
+    // download links while the review is in progress, even if a checkout
+    // session created before the pause completes afterwards. The order is
+    // still recorded by the admin notification (notifyEmail) above, so a
+    // stray completed OS Pack payment is visible and can be handled
+    // (refund or manual fulfillment once licensing is resolved).
+    if (OS_PACK_PAUSED) {
+      console.warn('OS Pack delivery paused (licensing review): no links generated for order', order.orderId);
+      return;
+    }
+
     if (!env.SENDGRID_API_KEY) { console.warn('SENDGRID_API_KEY not set; cannot email OS Pack links'); return; }
     if (!order.customer_email) { console.warn('No customer email on order; cannot deliver OS Pack'); return; }
     if (!r2Configured(env)) { console.warn('R2_* env vars not set; cannot generate OS Pack links'); return; }
