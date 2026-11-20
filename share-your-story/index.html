@@ -118,6 +118,7 @@
       <li><strong>Your email is never published or shared.</strong> We use it only to follow up with you about your submission.</li>
       <li><strong>Location is optional.</strong> If you give one, a city and state or a general region is plenty. We never ask for a precise address, and you should never send one.</li>
       <li><strong>Your contact information is never exposed.</strong> Nothing you send us in the form appears on the site except the name or pen name, one-line background, and bio link you choose for publication (see Credit, below).</li>
+      <li><strong>How your submission reaches us.</strong> The form sends it to us by email, through our email provider, and we keep it in our private inbox. The website itself doesn't store submissions in a database.</li>
       <li><strong>Submissions are never published automatically.</strong> Every submission is read by a person first. Nothing goes live without that review — and without us emailing you first if your piece is selected.</li>
     </ul>
   </div>
@@ -153,13 +154,13 @@
   <h2>Submit a <span class="hl">Field Report</span></h2>
   <p class="help">Fields marked * are required. Your email is never published or shared.</p>
 
-  <div id="form-ok" class="form-msg ok" role="status" tabindex="-1">
+  <div id="form-ok" class="form-msg" role="status" tabindex="-1">
     <strong>Thank you — your Field Report was sent.</strong><br>
     We read every submission. If yours is selected, we'll email you before anything publishes.
   </div>
-  <div id="form-err" class="form-msg err" role="alert" tabindex="-1"></div>
+  <div id="form-err" class="form-msg" role="alert" tabindex="-1"></div>
 
-  <form id="field-report-form" novalidate>
+  <form id="field-report-form" method="post" action="/api/submit-field-report" novalidate>
     <label for="name">Name or pen name *</label>
     <input type="text" id="name" name="name" maxlength="100" required autocomplete="name">
     <p class="field-error" id="err-name"></p>
@@ -209,6 +210,11 @@
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
     </div>
 
+    <!-- Render timestamp: set by JavaScript on page load. The server rejects
+         submissions that arrive implausibly fast after the page was rendered.
+         Left empty when JavaScript is unavailable; the server allows those. -->
+    <input type="hidden" id="form-rendered-at" name="formRenderedAt" value="">
+
     <button class="cta" type="submit" id="submit-btn">Send My Field Report</button>
     <p class="help" style="margin-top:12px">No photographs needed, no account needed. If your submission is selected and photos would help, we'll ask for them by email.</p>
   </form>
@@ -227,6 +233,8 @@
   var errBox = document.getElementById('form-err');
   var story = document.getElementById('story');
   var count = document.getElementById('story-count');
+  var renderedAt = document.getElementById('form-rendered-at');
+  if (renderedAt) renderedAt.value = String(Date.now());
 
   story.addEventListener('input', function(){ count.textContent = story.value.length; });
 
@@ -256,7 +264,8 @@
       noFabrication: document.getElementById('noFabrication').checked,
       permission: document.getElementById('permission').checked,
       age: document.getElementById('age').checked,
-      website: document.getElementById('website').value
+      website: document.getElementById('website').value,
+      formRenderedAt: renderedAt && renderedAt.value ? Number(renderedAt.value) : null
     };
 
     btn.disabled = true;

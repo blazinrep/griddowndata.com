@@ -5,12 +5,30 @@
 // same pattern as functions/api/webhook.js (same endpoint, same auth header,
 // same from-address fallback, admin address from env.ALERT_EMAIL).
 //
-// Nothing is stored anywhere (no R2, no KV, no database) and nothing is
+// The submission is processed through our email provider (SendGrid) and
+// retained in our private inbox. The website and this function store
+// nothing in a database (no R2, no KV, no database), and nothing is
 // published automatically — a human reads the email and decides what, if
 // anything, goes on the site. Contributor content is never rendered back
-// to any visitor. JSON responses only.
+// to any visitor.
+//
+// The form normally submits JSON via fetch. If JavaScript is unavailable,
+// the form posts as application/x-www-form-urlencoded to this same
+// endpoint (the form declares method="post" — there is no GET submission
+// path), which parses it, validates it the same way, and answers with a
+// plain confirmation page instead of JSON.
 
 const MAX_BODY_BYTES = 32768;
+
+// Abuse protection with no new infrastructure: submissions that arrive
+// implausibly fast after the page was rendered look automated. The page
+// records its render time in a hidden field; the no-JS path sends no
+// timestamp, so a missing timestamp is allowed through. This only catches
+// naive bots — a bot that waits, or that omits the field, passes it.
+// There is no durable per-IP rate limiting without a store; if abuse
+// appears, Cloudflare rate limiting or Turnstile is the next step.
+const MIN_SUBMIT_MS = 3000;
+const MAX_FUTURE_SKEW_MS = 60000;
 
 const LIMITS = {
   name: 100,
@@ -23,11 +41,29 @@ const LIMITS = {
   storyMax: 10000,
 };
 
+const CONFIRMATIONS = ['original', 'noFabrication', 'permission', 'age'];
+
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json' },
   });
+}
+
+// Minimal confirmation/error page for the no-JS (urlencoded) path. Messages
+// are our own static strings — contributor content is never echoed back.
+function htmlResponse(title, heading, paragraphs, status = 200) {
+  const body = paragraphs.map((p) => `<p>${p}</p>`).join('\n');
+  return new Response(
+    `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">` +
+      `<meta name="viewport" content="width=device-width, initial-scale=1.0">` +
+      `<title>${title} — GridDownData Field Reports</title>` +
+      `<style>body{background:#1A1F1B;color:#E7E9E5;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0}.wrap{max-width:640px;margin:0 auto;padding:48px 24px}a{color:#D35400}</style>` +
+      `</head><body><main class="wrap"><h1>${heading}</h1>\n${body}\n` +
+      `<p><a href="/share-your-story/">Back to the Field Reports form</a> · <a href="/">GridDownData home</a></p>` +
+      `</main></body></html>`,
+    { status, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
+  );
 }
 
 function isNonEmptyString(value) {
@@ -48,6 +84,21 @@ function isValidUrl(value) {
   }
 }
 
+// Optional field: absent, null, or empty is fine; if present it must be a
+// string within its cap. A wrong type (number, array, object) is rejected,
+// not silently ignored.
+function validateOptionalString(data, field, max, errors, label) {
+  const value = data[field];
+  if (value === undefined || value === null || value === '') return;
+  if (typeof value !== 'string') {
+    errors[field] = `${label} must be text.`;
+    return;
+  }
+  if (value.trim().length > max) {
+    errors[field] = `${label} must be ${max} characters or fewer.`;
+  }
+}
+
 // Returns an array of generic, field-level problems (messages name the field
 // but never echo contributor content back).
 function validateSubmission(data) {
@@ -65,16 +116,13 @@ function validateSubmission(data) {
     errors.email = 'Enter a valid email address.';
   }
 
-  if (typeof data.location === 'string' && data.location.trim().length > LIMITS.location) {
-    errors.location = `Location must be ${LIMITS.location} characters or fewer.`;
-  }
+  validateOptionalString(data, 'location', LIMITS.location, errors, 'Location');
+  validateOptionalString(data, 'background', LIMITS.background, errors, 'Background');
 
-  if (typeof data.background === 'string' && data.background.trim().length > LIMITS.background) {
-    errors.background = `Background must be ${LIMITS.background} characters or fewer.`;
-  }
-
-  if (typeof data.bioLink === 'string' && data.bioLink.trim().length > 0) {
-    if (data.bioLink.trim().length > LIMITS.bioLink || !isValidUrl(data.bioLink.trim())) {
+  if (data.bioLink !== undefined && data.bioLink !== null && data.bioLink !== '') {
+    if (typeof data.bioLink !== 'string') {
+      errors.bioLink = 'Bio link must be text.';
+    } else if (data.bioLink.trim().length > LIMITS.bioLink || !isValidUrl(data.bioLink.trim())) {
       errors.bioLink = 'Bio link must be a valid website address (https://…).';
     }
   }
@@ -110,6 +158,65 @@ function validateSubmission(data) {
   return errors;
 }
 
+// Returns an error string, or null. A missing timestamp (no-JS path, or an
+// old cached page) is allowed through — the check only catches submissions
+// that claim to have been rendered implausibly recently.
+function checkTiming(data) {
+  const ts = data.formRenderedAt;
+  if (ts === undefined || ts === null) return null;
+  if (typeof ts !== 'number' || !Number.isFinite(ts)) {
+    return 'Submission could not be verified. Please try again.';
+  }
+  const elapsed = Date.now() - ts;
+  if (elapsed < 0 && -elapsed > MAX_FUTURE_SKEW_MS) {
+    return 'Submission could not be verified. Please try again.';
+  }
+  if (elapsed >= 0 && elapsed < MIN_SUBMIT_MS) {
+    return 'Submission was sent too quickly to have been filled in by hand. Please take a moment and try again.';
+  }
+  return null;
+}
+
+// Parse the body according to its Content-Type. Returns { data, format }
+// where format is 'json' (fetch path) or 'html' (no-JS form post), or null
+// for an unsupported or unreadable body.
+function parseBody(rawBody, contentType) {
+  if (contentType.includes('application/json')) {
+    let data;
+    try {
+      data = JSON.parse(rawBody);
+    } catch {
+      return null;
+    }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+    return { data, format: 'json' };
+  }
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    const params = new URLSearchParams(rawBody);
+    const data = {};
+    for (const [key, value] of params) data[key] = value;
+    return { data, format: 'html' };
+  }
+  return null;
+}
+
+// Normalize the two submission shapes into one: native form posts send
+// checked checkboxes as the string "on" and the timestamp as a string;
+// the fetch path sends booleans and a number.
+function normalizeSubmission(data) {
+  for (const field of CONFIRMATIONS) {
+    if (data[field] === 'on' || data[field] === 'true') data[field] = true;
+  }
+  if (data.formRenderedAt !== undefined && data.formRenderedAt !== null && data.formRenderedAt !== '') {
+    const asNumber = Number(data.formRenderedAt);
+    // Keep a non-numeric value as-is so validation rejects it.
+    data.formRenderedAt = Number.isFinite(asNumber) ? asNumber : data.formRenderedAt;
+  } else {
+    delete data.formRenderedAt;
+  }
+  return data;
+}
+
 function formatEmailBody(data) {
   const lines = [
     'New GridDownData Field Report submission',
@@ -136,39 +243,57 @@ function formatEmailBody(data) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const contentType = request.headers.get('Content-Type') || '';
 
   // Lightweight abuse guard with no new infrastructure: refuse obviously
-  // oversized bodies before parsing.
+  // oversized bodies before parsing (measured in bytes, not characters).
   const rawBody = await request.text();
-  if (rawBody.length > MAX_BODY_BYTES) {
+  if (new TextEncoder().encode(rawBody).length > MAX_BODY_BYTES) {
     return jsonResponse({ error: 'Submission is too large.' }, 413);
   }
 
-  let data;
-  try {
-    data = JSON.parse(rawBody);
-  } catch {
+  const parsed = parseBody(rawBody, contentType);
+  if (!parsed) {
     return jsonResponse({ error: 'Submission could not be read. Please try again.' }, 400);
   }
-  if (!data || typeof data !== 'object' || Array.isArray(data)) {
-    return jsonResponse({ error: 'Submission could not be read. Please try again.' }, 400);
-  }
+  const { data, format } = parsed;
+  normalizeSubmission(data);
+
+  const respondError = (message, status) =>
+    format === 'html'
+      ? htmlResponse('Could not send', 'Could not send your Field Report', [message], status)
+      : jsonResponse({ error: message }, status);
 
   // Honeypot: the form includes a field real visitors never see or fill.
-  // A filled value means a bot — reject without saying why.
-  if (typeof data.website === 'string' && data.website.trim() !== '') {
-    return jsonResponse({ error: 'Submission could not be accepted.' }, 400);
+  // Any non-empty value — any type — means a bot: reject without saying why.
+  if (data.website !== undefined && data.website !== null && data.website !== '') {
+    return respondError('Submission could not be accepted.', 400);
+  }
+
+  // Implausibly fast submission (see MIN_SUBMIT_MS note above).
+  const timingError = checkTiming(data);
+  if (timingError) {
+    return respondError(timingError, 400);
   }
 
   const errors = validateSubmission(data);
   if (Object.keys(errors).length > 0) {
+    if (format === 'html') {
+      const items = Object.values(errors).map((message) => message);
+      return htmlResponse(
+        'Please fix and resend',
+        'Please fix and resend',
+        ['Please fix the following and try again:', ...items],
+        400,
+      );
+    }
     return jsonResponse({ error: 'Please fix the highlighted fields.', errors }, 400);
   }
 
   // Email is the only delivery channel. If it is not configured, fail
   // closed with a generic message — never say which setting is missing.
   if (!env.SENDGRID_API_KEY || !env.ALERT_EMAIL) {
-    return jsonResponse({ error: 'Submissions are temporarily unavailable. Please try again later.' }, 503);
+    return respondError('Submissions are temporarily unavailable. Please try again later.', 503);
   }
 
   const fromEmail = env.FROM_EMAIL || 'orders@griddowndata.com';
@@ -191,14 +316,20 @@ export async function onRequestPost(context) {
     });
     if (!res.ok) {
       console.error('Field Report email failed:', res.status, await res.text());
-      return jsonResponse({ error: 'We could not send your submission right now. Please try again later.' }, 502);
+      return respondError('We could not send your submission right now. Please try again later.', 502);
     }
   } catch (err) {
     console.error('Field Report email failed:', err);
-    return jsonResponse({ error: 'We could not send your submission right now. Please try again later.' }, 502);
+    return respondError('We could not send your submission right now. Please try again later.', 502);
   }
 
-  // Stored nowhere, published nowhere — the email is the whole handoff.
+  // Delivered by email to the private inbox; stored in no database and
+  // published nowhere — the email is the whole handoff.
+  if (format === 'html') {
+    return htmlResponse('Thank you', 'Thank you — your Field Report was sent', [
+      'We read every submission. If yours is selected, we will email you before anything publishes.',
+    ]);
+  }
   return jsonResponse({ received: true });
 }
 
