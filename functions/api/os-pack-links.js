@@ -1,6 +1,7 @@
 import { getStripe } from './_shared/stripe.js';
 import { presignR2Get, r2Configured } from './_shared/r2-presign.js';
 import { OS_PACK_FILES } from './_shared/os-pack-manifest.js';
+import { OS_PACK_PAUSED, OS_PACK_LINKS_PAUSED_MESSAGE } from './_shared/os-pack-pause.js';
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -17,6 +18,16 @@ function jsonResponse(body, status = 200) {
 // the thank-you page's script) downloads each file straight from R2.
 export async function onRequestGet(context) {
   const { request, env } = context;
+
+  // TEMPORARY PAUSE (2026-11-20): OsmAnd content licensing review — see
+  // _shared/os-pack-pause.js. No new OS Pack download links are generated
+  // while the review is in progress, even for sessions that were paid
+  // before the pause. Previously issued links keep their own 48-hour
+  // expiry; see the PR description for the revocation recommendation.
+  if (OS_PACK_PAUSED) {
+    return jsonResponse({ error: OS_PACK_LINKS_PAUSED_MESSAGE }, 503);
+  }
+
   const sessionId = new URL(request.url).searchParams.get('session_id');
 
   if (!sessionId) return jsonResponse({ error: 'Missing session_id.' }, 400);

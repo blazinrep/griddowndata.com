@@ -81,8 +81,8 @@
     "url": "https://griddowndata.com/#pricing",
     "priceCurrency": "USD",
     "lowPrice": "24.00",
-    "highPrice": "49.00",
-    "offerCount": "2",
+    "highPrice": "24.00",
+    "offerCount": "1",
     "availability": "https://schema.org/InStock"
   }
 }
@@ -896,9 +896,12 @@ ml('account', '2342326');
             <div class="perr" data-err="diy-guide"></div>
           </div>
 
-          <!-- TIER 2: Emergency OS Pack -->
+          <!-- TIER 2: Emergency OS Pack — TEMPORARILY UNAVAILABLE (2026-11-20).
+               OsmAnd content licensing review in progress; see
+               functions/api/_shared/os-pack-pause.js. To re-enable: restore
+               the "Best value" badge and the data-product="os-pack" button
+               below, and set OS_PACK_PAUSED to false. -->
           <div class="pcard featured">
-            <div class="pbadge">Best value</div>
             <div class="ptype">The software</div>
             <div class="pname">Emergency OS Pack</div>
             <div class="pdesc">Our interface — the guided dashboard, the encrypted vault, the full manual — as a download. Drops onto a drive you build yourself.</div>
@@ -911,10 +914,12 @@ ml('account', '2342326');
               <li>Includes the Build Guide</li>
               <li class="muted">You supply the drive &amp; free content</li>
             </ul>
-            <!-- Wired to /api/checkout + /api/os-pack-links, same as the DIY guide button.
-                 Live as of 2026-08-04: R2 env vars set, STRIPE_PRICE_OS_PACK set,
-                 and all 8 OS Pack files uploaded to R2 with keys matching os-pack-manifest.js. -->
-            <button class="btn btn-primary" data-product="os-pack">Get the OS Pack</button>
+            <!-- Purchase paused 2026-11-20 (OsmAnd licensing review).
+                 Was wired to /api/checkout + /api/os-pack-links, same as the
+                 DIY guide button. Live as of 2026-08-04: R2 env vars set,
+                 STRIPE_PRICE_OS_PACK set, and all 8 OS Pack files uploaded
+                 to R2 with keys matching os-pack-manifest.js. -->
+            <button class="btn btn-primary" disabled style="opacity:.55;cursor:not-allowed">Temporarily unavailable — content licensing review in progress.</button>
             <div class="perr" data-err="os-pack"></div>
           </div>
 

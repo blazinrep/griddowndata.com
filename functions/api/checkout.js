@@ -1,4 +1,5 @@
 import { getStripe } from './_shared/stripe.js';
+import { OS_PACK_PAUSED, OS_PACK_PAUSE_MESSAGE, KIT_PAUSED, KIT_PAUSE_MESSAGE } from './_shared/os-pack-pause.js';
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -21,6 +22,25 @@ const CATALOG = {
 function buildSessionParams(env, product) {
   const item = CATALOG[product];
   if (!item) return { error: 'Invalid product selection.', status: 400 };
+
+  // TEMPORARY PAUSE (2026-11-20): OsmAnd content licensing review — see
+  // _shared/os-pack-pause.js. Blocks NEW OS Pack checkout sessions on both
+  // the POST and GET endpoints (both go through this function). No Stripe
+  // session is created, so no charge is possible. Blueprint (diy-guide)
+  // checkouts are unaffected.
+  if (product === 'os-pack' && OS_PACK_PAUSED) {
+    return { error: OS_PACK_PAUSE_MESSAGE, status: 503 };
+  }
+
+  // TEMPORARY PAUSE (2026-11-20): same licensing review — the Complete Kit
+  // / Vault Drive ships the same prebuilt OsmAnd map files as the OS Pack.
+  // Its buy button is disabled ("Coming soon") today, but this blocks the
+  // API layer too: a direct POST/GET with product=complete-kit — or a POST
+  // with no product, which defaults to the kit — must not create a Stripe
+  // session. Blueprint (diy-guide) checkouts are unaffected.
+  if (product === 'complete-kit' && KIT_PAUSED) {
+    return { error: KIT_PAUSE_MESSAGE, status: 503 };
+  }
 
   const priceId = env[item.priceEnv];
   if (!priceId || !priceId.startsWith('price_')) {
