@@ -5,8 +5,21 @@
 # Source: download.osmand.net official index (schema _2)
 # Repeatable: re-run to resume; skips files already downloaded.
 # Use for initial build AND annual re-flash (Field Manual 7.2).
+# PAUSED 2026-11-20: see the guard below (set -e). To re-enable,
+# delete the guard block (through `exit 1`).
 # ============================================================
 set -e
+# ------------------------------------------------------------------
+# PAUSED 2026-11-20 — OsmAnd bulk-map redistribution is under
+# licensing clarification. This downloader is paused pending that
+# clarification and must not download anything until the guard
+# below is removed. Re-enable by deleting this block.
+# ------------------------------------------------------------------
+echo "GridDownData map downloader is PAUSED." >&2
+echo "OsmAnd bulk-map redistribution is under licensing clarification;" >&2
+echo "this downloader is paused pending that clarification." >&2
+echo "No files were downloaded and no directories were created." >&2
+exit 1
 DEST="$HOME/Downloads/GRIDDOWN_DRIVE/03_Offline_Maps/regions"
 mkdir -p "$DEST"; cd "$DEST"
 echo "Downloading 85 US map files (~18.1 GB) to $DEST"
