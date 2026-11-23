@@ -266,6 +266,16 @@
   }
   .assurance span{display:flex;align-items:center;gap:8px}
   .tick{color:var(--orange);font-weight:800}
+  .blueprint-strip{
+    grid-column:1 / -1;
+    margin-top:26px;max-width:60ch;
+    border:1px solid var(--line);border-left:3px solid var(--orange);
+    background:rgba(211,84,0,.06);border-radius:3px;padding:16px 18px;
+  }
+  .blueprint-strip p{margin:0 0 8px;color:var(--muted);font-size:.95rem}
+  .blueprint-strip p:last-child{margin:0}
+  .blueprint-strip strong{color:var(--text)}
+  .blueprint-strip a{color:var(--orange);font-weight:700}
 
   .hero .wrap{
     display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
@@ -510,6 +520,10 @@ ml('account', '2342326');
         <span><span class="tick">✓</span> Works with zero internet</span>
         <span><span class="tick">✓</span> Buy once, own forever</span>
         <span><span class="tick">✓</span> EMP-shielded Faraday protection</span>
+      </div>
+      <div class="blueprint-strip">
+        <p><strong>Start here — the $24 Blueprint.</strong> A 25-page PDF field manual for building your own offline knowledge kit: instructions only — no preloaded maps, no software. $24, instant download.</p>
+        <p><a href="/blueprint/">Get the Blueprint →</a> &nbsp;·&nbsp; Not ready to buy? <a href="#checklist">Get the free 72-hour checklist</a> instead.</p>
       </div>
     </div>
     <div class="hero-visual" aria-label="GridDownData product close-up">
@@ -880,7 +894,7 @@ ml('account', '2342326');
           <div class="pcard">
             <div class="ptype">Do-it-yourself</div>
             <div class="pname">The Build Guide</div>
-            <div class="pdesc">Step-by-step instructions to assemble the full vault from free, open sources. Instant PDF.</div>
+            <div class="pdesc">A 25-page PDF of step-by-step instructions to assemble the full vault from free, open sources. Instant download.</div>
             <!-- TODO: set real price -->
             <div class="pprice">$24<small> PDF</small></div>
             <div class="pnote">Digital · Nothing ships · Yours forever</div>
@@ -1076,7 +1090,10 @@ ml('account', '2342326');
       })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
-          if (res.ok && res.d.url) { window.location.href = res.d.url; return; }
+          if (res.ok && res.d.url) {
+            if (product === 'diy-guide' && typeof gtag === 'function') { gtag('event', 'begin_checkout', {product: 'diy-guide'}); }
+            window.location.href = res.d.url; return;
+          }
           errEl.textContent = res.d.error || 'Checkout is not available yet. Please try again shortly.';
           btn.disabled = false; btn.textContent = original;
         })
