@@ -151,7 +151,6 @@
     var original = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Opening secure checkout…';
-    if (typeof gtag === 'function') { gtag('event', 'begin_checkout', {product: 'diy-guide'}); }
     try {
       var res = await fetch('/api/checkout', {
         method: 'POST',
@@ -160,6 +159,7 @@
       });
       var data = await res.json();
       if (res.ok && data && data.url) {
+        if (typeof gtag === 'function') { gtag('event', 'begin_checkout', {product: 'diy-guide'}); }
         window.location.href = data.url;
         return;
       }
